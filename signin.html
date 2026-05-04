@@ -109,6 +109,8 @@
 <script>
 // Redirect if already logged in
 if (Auth.isLoggedIn()) window.location.href = 'dashboard.html';
+if(localStorage.getItem('glazora_admin')) window.location.href = 'dashboard.html';
+
 
 let activeTab = 'email';
 
@@ -127,6 +129,8 @@ function toggleLang() {
 }
 
 async function sendOTP(isResend = false) {
+  console.log("1");
+  
   const contact = activeTab === 'email'
     ? document.getElementById('emailField').value.trim()
     : document.getElementById('phoneField').value.trim();

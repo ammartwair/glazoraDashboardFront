@@ -2,6 +2,7 @@
 // GLAZORA – API Client (Frontend ↔ Backend)
 // ============================================
 const API_BASE = window.GLAZORA_API || 'https://glazoradashboard.onrender.com/api';
+// 'https://glazoradashboard.onrender.com/api';
 //  'http://localhost:5000/api' ||
 
 // Token helpers

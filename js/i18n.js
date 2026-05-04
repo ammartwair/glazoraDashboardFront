@@ -107,6 +107,7 @@ const TRANSLATIONS = {
 
     // SIGNIN
     signin_title: 'مرحباً بعودتك',
+    signin_brand_html: 'مشروعك،<br/><em>دائماً في متناول يدك</em>',
     signin_sub: 'سجّل دخولك باستخدام بريدك الإلكتروني أو رقم هاتفك.',
     tab_mobile: '📱 الجوال',
     tab_email: '✉️ البريد الإلكتروني',
@@ -286,7 +287,7 @@ const TRANSLATIONS = {
     footer_company: 'Glazora for Doors and Windows Sales LLC', footer_location: 'AlHail Industrial, Fujairah, UAE',
     footer_products: 'Products', footer_company_col: 'Company', footer_contact_col: 'Contact',
     footer_about: 'About Us', footer_contact: 'Contact', footer_rights: '© 2025 Glazora. All rights reserved.',
-    signin_title: 'Welcome Back', signin_sub: 'Sign in with your mobile number or email address.',
+    signin_title: 'Welcome Back', signin_brand_html: 'Your project,<br/><em>always within reach</em>', signin_sub: 'Sign in with your mobile number or email address.',
     tab_mobile: '📱 Mobile', tab_email: '✉️ Email', phone_label: 'Mobile Number', email_label_auth: 'Email Address',
     send_otp: 'Send Verification Code →', no_account: 'Don\'t have access? Your account is created by Glazora once your project starts.',
     contact_us_link: 'Contact us to get started →', otp_title: 'Enter OTP',
