@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>مشروعي – بوابة جلازورا</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="dashboard-wrap">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="logo logo-light"><span class="logo-mark">G</span><span class="logo-text">GLAZORA</span></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label" data-i18n="dash_overview">مشروعي</div>
+      <div class="sidebar-link active" onclick="showTab('overview')">
+        <span class="sidebar-icon">📊</span> <span data-i18n="dash_overview">نظرة عامة</span>
+      </div>
+      <div class="sidebar-link" onclick="showTab('photos')">
+        <span class="sidebar-icon">📸</span> <span data-i18n="dash_photos">صور الموقع</span>
+      </div>
+      <div class="sidebar-link" onclick="showTab('quotation')">
+        <span class="sidebar-icon">📄</span> <span data-i18n="dash_quotation">عرض السعر</span>
+      </div>
+      <div class="sidebar-link" onclick="showTab('payments')">
+        <span class="sidebar-icon">💳</span> <span data-i18n="dash_payments">المدفوعات</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="padding:12px 14px;">
+        <button class="lang-toggle" onclick="toggleLang()" id="sidebarLangToggle" style="width:100%;border-radius:8px;padding:10px;">EN</button>
+      </div>
+      <div class="sidebar-link" onclick="window.location.href='index.html'">
+        <span class="sidebar-icon">🏠</span> <span data-i18n="dash_back">العودة إلى الموقع</span>
+      </div>
+      <div class="sidebar-link" onclick="signOut()">
+        <span class="sidebar-icon">🚪</span> <span data-i18n="dash_signout">تسجيل الخروج</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-area">
+    <div class="top-bar">
+      <button class="hamburger" id="sidebarToggle" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+      <div class="top-bar-title">
+        <h2 id="tabTitle" data-i18n="dash_overview">نظرة عامة</h2>
+        <p id="tabSub">جاري التحميل...</p>
+      </div>
+      <div class="top-bar-right">
+        <div class="avatar" id="clientAvatar">—</div>
+      </div>
+    </div>
+
+    <!-- LOADING STATE -->
+    <div id="dashboardLoading" style="display:flex;align-items:center;justify-content:center;min-height:60vh;flex-direction:column;gap:16px;">
+      <div class="loading-spinner"></div>
+      <p style="color:var(--gray-400);" data-i18n="loading">جاري تحميل بيانات مشروعك...</p>
+    </div>
+
+    <div class="dashboard-content" id="dashboardContent" style="display:none;">
+
+      <!-- ===== OVERVIEW ===== -->
+      <div id="tab-overview" class="tab-content">
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-label" data-i18n="project_status">حالة المشروع</div>
+            <div class="kpi-value" id="kpi-status" style="font-size:20px;color:var(--gold);">—</div>
+            <div class="kpi-sub" id="kpi-phase">—</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label" data-i18n="completion">نسبة الإنجاز</div>
+            <div class="kpi-value" id="kpi-pct">—</div>
+            <div class="kpi-sub" data-i18n="on_schedule">في الموعد</div>
+          </div>
+          <div class="kpi-card accent">
+            <div class="kpi-label" data-i18n="amount_paid">المبلغ المدفوع</div>
+            <div class="kpi-value" id="kpi-paid">—</div>
+            <div class="kpi-sub" id="kpi-paid-sub">—</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label" data-i18n="remaining">المتبقي</div>
+            <div class="kpi-value" id="kpi-remaining">—</div>
+            <div class="kpi-sub" id="kpi-next-due">—</div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3 data-i18n="project_progress">تقدم المشروع</h3>
+              <span id="progressLabel" style="font-size:13px;color:var(--green-600);font-weight:600;">—</span>
+            </div>
+            <div class="dash-card-body">
+              <div class="progress-bar" style="height:12px;margin-bottom:28px;">
+                <div class="progress-fill" id="mainProgressBar" style="width:0%;"></div>
+              </div>
+              <ul class="phase-list" id="phaseList">
+                <li style="color:var(--gray-300);font-size:13px;">جاري التحميل...</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3 data-i18n="recent_photos">أحدث صور الموقع</h3>
+              <span style="font-size:13px;color:var(--green-600);font-weight:600;cursor:pointer;" onclick="showTab('photos')" data-i18n="view_all">عرض الكل ←</span>
+            </div>
+            <div class="dash-card-body">
+              <div class="photo-grid" id="recentPhotosGrid">
+                <div style="color:var(--gray-300);font-size:13px;" data-i18n="no_photos_yet">لا توجد صور حتى الآن</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3 data-i18n="payment_summary">ملخص المدفوعات</h3>
+              <span style="font-size:13px;color:var(--green-600);font-weight:600;cursor:pointer;" onclick="showTab('payments')" data-i18n="view_all">عرض الكل ←</span>
+            </div>
+            <div class="dash-card-body" id="paymentSummaryBody">
+              <div style="color:var(--gray-300);font-size:13px;">جاري التحميل...</div>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="dash-card-header"><h3 data-i18n="project_details">تفاصيل المشروع</h3></div>
+            <div class="dash-card-body" id="projectDetailsBody">
+              <div style="color:var(--gray-300);font-size:13px;">جاري التحميل...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PHOTOS ===== -->
+      <div id="tab-photos" class="tab-content" style="display:none;">
+        <div id="photosContent"></div>
+      </div>
+
+      <!-- ===== QUOTATION ===== -->
+      <div id="tab-quotation" class="tab-content" style="display:none;">
+        <div id="quotationContent"></div>
+      </div>
+
+      <!-- ===== PAYMENTS ===== -->
+      <div id="tab-payments" class="tab-content" style="display:none;">
+        <div id="paymentsContent"></div>
+      </div>
+
+    </div><!-- end dashboard-content -->
+  </main>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script>
+// Auth guard
+if (!Auth.isLoggedIn()) window.location.href = 'signin.html';
+
+let dashboardData = null;
+const projectId = localStorage.getItem('glazora_project_id');
+
+if (!projectId) {
+  window.location.href = 'signin.html';
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', async () => {
+  const client = Auth.getClient();
+  if (client) {
+    const initials = (client.name || client.email || '?').charAt(0).toUpperCase();
+    document.getElementById('clientAvatar').textContent = initials;
+  }
+  await loadDashboard();
+});
+
+async function loadDashboard() {
+  const { ok, data } = await ClientAPI.getDashboard(projectId);
+  if (!ok) {
+    if (data.message && data.message.includes('Access')) {
+      window.location.href = 'signin.html';
+    }
+    return;
+  }
+
+  dashboardData = data.dashboard;
+  document.getElementById('dashboardLoading').style.display = 'none';
+  document.getElementById('dashboardContent').style.display = 'block';
+
+  renderKPIs(dashboardData);
+  renderPhases(dashboardData.phases);
+  renderRecentPhotos(dashboardData.photos);
+  renderPaymentSummary(dashboardData.payments, dashboardData.paymentSummary);
+  renderProjectDetails(dashboardData.project);
+
+  // Tab sub title
+  const lang = currentLang;
+  const proj = dashboardData.project;
+  document.getElementById('tabSub').textContent = lang === 'ar' ? proj.title_ar : proj.title_en;
+}
+
+function renderKPIs(d) {
+  const { project, paymentSummary } = d;
+  const statusMap = { active: t('in_progress'), completed: 'مكتمل', pending: 'قيد الانتظار' };
+  document.getElementById('kpi-status').textContent = statusMap[project.status] || project.status;
+  document.getElementById('kpi-phase').textContent = `${currentLang === 'ar' ? 'المرحلة' : 'Phase'} ${project.current_phase} ${currentLang === 'ar' ? 'من' : 'of'} ${project.total_phases}`;
+  document.getElementById('kpi-pct').textContent = `${Math.round(project.completion_pct)}%`;
+  document.getElementById('kpi-paid').textContent = `${Number(paymentSummary.paid).toLocaleString()} درهم`;
+  document.getElementById('kpi-paid-sub').textContent = `${currentLang === 'ar' ? 'من' : 'of'} ${Number(paymentSummary.total).toLocaleString()} ${currentLang === 'ar' ? 'درهم' : 'AED'}`;
+  document.getElementById('kpi-remaining').textContent = `${Number(paymentSummary.remaining).toLocaleString()} درهم`;
+  document.getElementById('progressLabel').textContent = `${Math.round(project.completion_pct)}% ${currentLang === 'ar' ? 'مكتمل' : 'Complete'}`;
+
+  setTimeout(() => {
+    document.getElementById('mainProgressBar').style.width = `${project.completion_pct}%`;
+  }, 300);
+}
+
+function renderPhases(phases) {
+  const list = document.getElementById('phaseList');
+  list.innerHTML = phases.map(p => {
+    const isDone   = p.status === 'done';
+    const isActive = p.status === 'active';
+    const title = currentLang === 'ar' ? p.title_ar : p.title_en;
+    return `<li class="phase-item ${isDone ? 'done' : isActive ? 'active' : ''}">
+      <div class="phase-dot ${isDone ? 'done' : isActive ? 'active' : ''}"></div>
+      <span>${isDone ? '✓ ' : isActive ? '→ ' : ''}${title}</span>
+    </li>`;
+  }).join('');
+}
+
+function renderRecentPhotos(photos) {
+  const all = [...(photos.before || []), ...(photos.during || []), ...(photos.after || [])].slice(0, 6);
+  const grid = document.getElementById('recentPhotosGrid');
+  if (!all.length) {
+    grid.innerHTML = `<p style="color:var(--gray-300);font-size:13px;" data-i18n="no_photos_yet">لا توجد صور حتى الآن</p>`;
+    return;
+  }
+  const API_URL = window.GLAZORA_API || 'http://localhost:5000';
+  grid.innerHTML = all.map(p => {
+    const caption = currentLang === 'ar' ? p.caption_ar : p.caption_en;
+    const phase = p.phase === 'before' ? t('before') : p.phase === 'during' ? t('during') : t('after');
+    return `<div class="photo-thumb pt-${p.phase}" onclick="showTab('photos')">
+      <img src="${API_URL}/uploads/${p.filename}" alt="${caption || phase}"
+           style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='<span style=font-size:24px>🏗️</span>'"/>
+      <div class="photo-thumb-label">${phase}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderPaymentSummary(payments, summary) {
+  const body = document.getElementById('paymentSummaryBody');
+  const rows = payments.slice(0, 4).map(p => {
+    const label = currentLang === 'ar' ? p.milestone_name_ar : p.milestone_name_en;
+    const badge = p.status === 'paid'
+      ? `<span class="pay-status paid">${t('paid_badge')}</span>`
+      : p.due_date
+        ? `<span class="pay-status pending">${t('pending_badge')}</span>`
+        : `<span class="pay-status remaining">${t('completion_badge')}</span>`;
+    return `<div class="payment-row">
+      <div class="pay-label">${label || '—'}</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="pay-amount">AED ${Number(p.amount).toLocaleString()}</div>
+        ${badge}
+      </div>
+    </div>`;
+  }).join('');
+
+  body.innerHTML = rows + `
+    <div class="progress-bar" style="margin-top:16px;">
+      <div class="progress-fill" style="width:${summary.paidPct}%;"></div>
+    </div>
+    <p style="font-size:12px;color:var(--gray-400);margin-top:6px;">
+      AED ${Number(summary.paid).toLocaleString()} ${currentLang === 'ar' ? 'مدفوع من' : 'paid of'} AED ${Number(summary.total).toLocaleString()}
+    </p>`;
+}
+
+function renderProjectDetails(project) {
+  const body = document.getElementById('projectDetailsBody');
+  const title = currentLang === 'ar' ? project.title_ar : project.title_en;
+  const location = currentLang === 'ar' ? project.location_ar : project.location_en;
+  body.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      ${detailRow(t('proj_type'), title)}
+      ${location ? detailRow(t('proj_location'), location) : ''}
+      ${project.start_date ? detailRow(t('proj_start'), new Date(project.start_date).toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-AE')) : ''}
+      ${project.expected_end_date ? detailRow(t('proj_end'), new Date(project.expected_end_date).toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-AE')) : ''}
+      ${project.supervisor_name ? detailRow(t('proj_supervisor'), project.supervisor_name) : ''}
+      ${detailRow(currentLang === 'ar' ? 'رقم المشروع' : 'Project No.', project.project_number)}
+    </div>`;
+}
+
+function detailRow(label, value) {
+  return `<div>
+    <div style="font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">${label}</div>
+    <div style="font-size:14px;font-weight:500;color:var(--green-900);">${value}</div>
+  </div>`;
+}
+
+// === PHOTOS TAB ===
+function renderPhotosTab(photos) {
+  const content = document.getElementById('photosContent');
+  const sections = [
+    { key: 'before', label: t('before'), items: photos.before || [] },
+    { key: 'during', label: t('during'), items: photos.during || [] },
+    { key: 'after', label: t('after'), items: photos.after || [] },
+  ];
+  const API_URL = window.GLAZORA_API || 'http://localhost:5000';
+  content.innerHTML = sections.map(s => `
+    <div class="dash-card" style="margin-bottom:24px;">
+      <div class="dash-card-header">
+        <h3>${s.label}</h3>
+        <span style="font-size:12px;color:var(--gray-400);">${s.items.length} ${currentLang === 'ar' ? 'صورة' : 'photos'}</span>
+      </div>
+      <div class="dash-card-body">
+        ${s.items.length ? `
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">
+            ${s.items.map(p => `
+              <div style="position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:var(--gray-100);cursor:pointer;" onclick="openPhoto('${API_URL}/uploads/${p.filename}')">
+                <img src="${API_URL}/uploads/${p.filename}" alt=""
+                     style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"/>
+                ${(p.caption_ar || p.caption_en) ? `<div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);color:#fff;font-size:11px;padding:12px 8px 6px;text-align:center;">${currentLang === 'ar' ? p.caption_ar : p.caption_en}</div>` : ''}
+              </div>
+            `).join('')}
+          </div>` : `<div style="text-align:center;padding:40px;color:var(--gray-300);">
+            <div style="font-size:40px;margin-bottom:12px;">📷</div>
+            <p>${currentLang === 'ar' ? 'سيتم إضافة الصور قريباً' : 'Photos will be added soon'}</p>
+          </div>`}
+      </div>
+    </div>`).join('');
+}
+
+// === QUOTATION TAB ===
+function renderQuotationTab(quotation) {
+  const content = document.getElementById('quotationContent');
+  if (!quotation) {
+    content.innerHTML = `<div class="dash-card"><div class="dash-card-body" style="text-align:center;padding:60px;">
+      <div style="font-size:48px;margin-bottom:16px;">📄</div>
+      <p style="color:var(--gray-400);">${currentLang === 'ar' ? 'لا يوجد عرض سعر حتى الآن' : 'No quotation available yet'}</p>
+    </div></div>`;
+    return;
+  }
+
+  const items = quotation.items || [];
+  const statusBadge = quotation.approved_by_client
+    ? `<span class="status-badge connected" data-i18n="quot_approved">${t('quot_approved')}</span>`
+    : `<button class="btn-primary" style="padding:8px 20px;font-size:13px;" onclick="approveQuotation()">${t('approve_quot')}</button>`;
+
+  content.innerHTML = `
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h3>${t('dash_quotation')}</h3>
+        <div style="display:flex;gap:10px;align-items:center;">
+          ${statusBadge}
+          <button class="btn-outline" style="padding:8px 16px;font-size:12px;">${t('quot_download')}</button>
+        </div>
+      </div>
+      <div class="dash-card-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;padding:20px;background:var(--off-white);border-radius:var(--radius);">
+          ${detailRow(t('quot_no'), quotation.quotation_number)}
+          ${detailRow(t('quot_date'), new Date(quotation.created_at).toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-AE'))}
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="quote-table">
+            <thead><tr>
+              <th>#</th><th>${t('quot_desc')}</th>
+              <th>${t('quot_unit')}</th><th>${t('quot_qty')}</th>
+              <th>${t('quot_price')}</th><th>${t('quot_total')}</th>
+            </tr></thead>
+            <tbody>
+              ${items.map((it, i) => `<tr>
+                <td>${i + 1}</td>
+                <td>${currentLang === 'ar' ? it.description_ar : it.description_en}</td>
+                <td>${currentLang === 'ar' ? it.unit_ar : it.unit_en}</td>
+                <td>${it.quantity}</td>
+                <td>AED ${Number(it.unit_price).toLocaleString()}</td>
+                <td>AED ${Number(it.total_price).toLocaleString()}</td>
+              </tr>`).join('')}
+              <tr class="total-row">
+                <td colspan="5" style="text-align:${currentLang === 'ar' ? 'left' : 'right'};padding-inline-end:16px;">${t('quot_subtotal')}</td>
+                <td>AED ${Number(quotation.subtotal).toLocaleString()}</td>
+              </tr>
+              <tr class="total-row">
+                <td colspan="5" style="text-align:${currentLang === 'ar' ? 'left' : 'right'};padding-inline-end:16px;color:var(--green-700);">${t('quot_vat')}</td>
+                <td style="color:var(--green-700);">AED ${Number(quotation.total).toLocaleString()}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+}
+
+// === PAYMENTS TAB ===
+function renderPaymentsTab(payments, summary) {
+  const content = document.getElementById('paymentsContent');
+  const nextPending = payments.find(p => p.status === 'pending' && p.due_date);
+
+  content.innerHTML = `
+    <div class="kpi-row" style="margin-bottom:24px;">
+      <div class="kpi-card accent"><div class="kpi-label">${currentLang === 'ar' ? 'إجمالي المشروع' : 'Total Project Value'}</div><div class="kpi-value">AED ${Number(summary.total).toLocaleString()}</div></div>
+      <div class="kpi-card"><div class="kpi-label" data-i18n="amount_paid">${t('amount_paid')}</div><div class="kpi-value">AED ${Number(summary.paid).toLocaleString()}</div><div class="kpi-sub">${summary.paidPct}%</div></div>
+      <div class="kpi-card"><div class="kpi-label" data-i18n="remaining">${t('remaining')}</div><div class="kpi-value">AED ${Number(summary.remaining).toLocaleString()}</div></div>
+      ${nextPending ? `<div class="kpi-card"><div class="kpi-label" data-i18n="next_due">${t('next_due')}</div><div class="kpi-value" style="font-size:18px;color:var(--gold);">${new Date(nextPending.due_date).toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-AE')}</div><div class="kpi-sub">AED ${Number(nextPending.amount).toLocaleString()}</div></div>` : ''}
+    </div>
+    <div class="dash-card" style="margin-bottom:24px;">
+      <div class="dash-card-header"><h3>${currentLang === 'ar' ? 'جدول الدفعات' : 'Payment Schedule'}</h3></div>
+      <div class="dash-card-body">
+        <div class="progress-bar" style="height:12px;margin-bottom:24px;"><div class="progress-fill" style="width:${summary.paidPct}%;"></div></div>
+        ${payments.map(p => {
+          const label = currentLang === 'ar' ? p.milestone_name_ar : p.milestone_name_en;
+          const badge = p.status === 'paid'
+            ? `<span class="pay-status paid">${t('paid_badge')}</span>`
+            : p.due_date ? `<span class="pay-status pending">${t('pending_badge')}</span>`
+            : `<span class="pay-status remaining">${t('completion_badge')}</span>`;
+          const dateNote = p.status === 'paid' && p.paid_at
+            ? new Date(p.paid_at).toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-AE')
+            : p.due_date ? new Date(p.due_date).toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-AE')
+            : currentLang === 'ar' ? 'عند الإنجاز' : 'Upon completion';
+          return `<div class="payment-row">
+            <div><div class="pay-label" style="font-weight:600;color:var(--green-900);">${label}</div>
+            <div style="font-size:12px;color:var(--gray-400);margin-top:2px;">${dateNote}</div></div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div class="pay-amount">AED ${Number(p.amount).toLocaleString()}</div>${badge}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    <div style="background:var(--green-100);border:1px solid var(--green-200);border-radius:var(--radius);padding:24px;display:flex;gap:16px;align-items:flex-start;">
+      <span style="font-size:24px;">💡</span>
+      <div>
+        <div style="font-weight:600;color:var(--green-800);margin-bottom:6px;" data-i18n="pay_note_title">${t('pay_note_title')}</div>
+        <p style="font-size:14px;color:var(--gray-600);line-height:1.7;" data-i18n="pay_note_desc">${t('pay_note_desc')}</p>
+        <a href="contact.html" style="color:var(--green-700);font-size:13px;font-weight:600;margin-top:8px;display:inline-block;" data-i18n="contact_accounts">${t('contact_accounts')}</a>
+      </div>
+    </div>`;
+}
+
+// ── Tab switching ──────────────────────────────
+const tabTitles = { overview: 'dash_overview', photos: 'dash_photos', quotation: 'dash_quotation', payments: 'dash_payments' };
+function showTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.getElementById('tab-' + tab).style.display = 'block';
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('tabTitle').setAttribute('data-i18n', tabTitles[tab]);
+  document.getElementById('tabTitle').textContent = t(tabTitles[tab]);
+
+  if (!dashboardData) return;
+  if (tab === 'photos' && !document.getElementById('photosContent').innerHTML) {
+    renderPhotosTab(dashboardData.photos);
+  }
+  if (tab === 'quotation' && !document.getElementById('quotationContent').innerHTML) {
+    renderQuotationTab(dashboardData.quotation);
+  }
+  if (tab === 'payments' && !document.getElementById('paymentsContent').innerHTML) {
+    renderPaymentsTab(dashboardData.payments, dashboardData.paymentSummary);
+  }
+}
+
+async function approveQuotation() {
+  if (!confirm(currentLang === 'ar' ? 'هل تريد اعتماد عرض السعر هذا؟' : 'Approve this quotation?')) return;
+  const { ok } = await ClientAPI.approveQuotation(projectId);
+  if (ok) {
+    showToast(t('approve_success'));
+    document.getElementById('quotationContent').innerHTML = '';
+    renderQuotationTab({ ...dashboardData.quotation, approved_by_client: true });
+  }
+}
+
+function openPhoto(url) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:99999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;';
+  overlay.innerHTML = `<img src="${url}" style="max-width:90vw;max-height:90vh;border-radius:12px;"/>`;
+  overlay.onclick = () => overlay.remove();
+  document.body.appendChild(overlay);
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+function toggleLang() {
+  const newLang = currentLang === 'ar' ? 'en' : 'ar';
+  setLang(newLang);
+  document.getElementById('sidebarLangToggle').textContent = newLang === 'ar' ? 'EN' : 'ع';
+  // Re-render active tab
+  if (dashboardData) {
+    renderKPIs(dashboardData);
+    renderPhases(dashboardData.phases);
+    renderRecentPhotos(dashboardData.photos);
+    renderPaymentSummary(dashboardData.payments, dashboardData.paymentSummary);
+    renderProjectDetails(dashboardData.project);
+    document.getElementById('photosContent').innerHTML = '';
+    document.getElementById('quotationContent').innerHTML = '';
+    document.getElementById('paymentsContent').innerHTML = '';
+  }
+}
+
+function signOut() {
+  if (confirm(t('signout_confirm'))) {
+    Auth.removeToken(); Auth.removeClient();
+    localStorage.removeItem('glazora_project_id');
+    window.location.href = 'signin.html';
+  }
+}
+</script>
+<style>
+.loading-spinner { width:40px;height:40px;border:3px solid var(--gray-200);border-top-color:var(--green-600);border-radius:50%;animation:spin 0.8s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+</style>
+</body>
+</html>

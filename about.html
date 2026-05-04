@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>من نحن – جلازورا</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="nav scrolled" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-mark">G</span><span class="logo-text">GLAZORA</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-link" data-i18n="nav_home">الرئيسية</a>
+      <a href="products.html" class="nav-link" data-i18n="nav_products">منتجاتنا</a>
+      <a href="about.html" class="nav-link active" data-i18n="nav_about">من نحن</a>
+      <a href="contact.html" class="nav-link" data-i18n="nav_contact">تواصل معنا</a>
+      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+      <a href="signin.html" class="nav-btn" data-i18n="nav_portal">بوابة العملاء</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="lang-toggle lang-toggle-mobile" id="langToggleMobile" onclick="toggleLang()">EN</button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="container">
+    <div class="about-hero-content fade-in">
+      <div class="section-tag" data-i18n="about_tag">من نحن</div>
+      <h1 data-i18n="about_title">مبنيون في الفجيرة،<br/>موثوقون في الإمارات</h1>
+      <p data-i18n="about_sub">متخصصون في تصنيع وتركيب أنظمة الألمنيوم والزجاج والـ UPVC والـ WPC.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section style="padding:100px 0;">
+  <div class="container">
+    <div class="story-grid">
+      <div class="fade-in">
+        <div class="section-tag" data-i18n="story_tag">قصتنا</div>
+        <h2 class="section-title" data-i18n="story_title">من الفجيرة إلى كل زاوية في الإمارات</h2>
+        <p style="font-size:15px;color:var(--gray-500);line-height:1.9;margin-bottom:20px;" data-i18n="story_p1">تأسست جلازورا لبيع الأبواب والنوافذ ذ.م.م. في المنطقة الصناعية الحيل بالفجيرة.</p>
+        <p style="font-size:15px;color:var(--gray-500);line-height:1.9;margin-bottom:32px;" data-i18n="story_p2">فريقنا يضم مهندسين وصانعين ومشرفي مواقع متمرسين يفهمون بيئة البناء في الإمارات.</p>
+        <a href="contact.html" class="btn-primary" data-i18n="story_btn">اتصل بنا ←</a>
+      </div>
+      <div class="story-img fade-in fade-in-delay-1">🏭</div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section style="background:var(--off-white);padding:100px 0;">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:16px;">
+      <div class="section-tag" data-i18n="val_tag">قيمنا</div>
+      <h2 class="section-title" data-i18n="val_title">المبادئ التي تقود كل مشروع</h2>
+    </div>
+    <div class="values-grid">
+      <div class="val-card fade-in"><div class="val-icon">🔬</div><h3 data-i18n="val_quality">الجودة أولاً</h3><p data-i18n="val_quality_desc">كل ملف ولحام وحشو يخضع لفحص الجودة قبل مغادرة مصنعنا.</p></div>
+      <div class="val-card fade-in fade-in-delay-1"><div class="val-icon">📊</div><h3 data-i18n="val_trans">الشفافية مع العميل</h3><p data-i18n="val_trans_desc">بوابتنا الرقمية تمنح أصحاب المشاريع رؤية مباشرة لحالة مشروعهم.</p></div>
+      <div class="val-card fade-in fade-in-delay-2"><div class="val-icon">⏱️</div><h3 data-i18n="val_time">التسليم في الموعد</h3><p data-i18n="val_time_desc">ننسق جداول التصنيع والتركيب مع جدولك الزمني.</p></div>
+      <div class="val-card fade-in"><div class="val-icon">🌡️</div><h3 data-i18n="val_uae">مصنوع للإمارات</h3><p data-i18n="val_uae_desc">كل مواد وطلاءات مختارة لأداء مناخ الإمارات.</p></div>
+      <div class="val-card fade-in fade-in-delay-1"><div class="val-icon">🔄</div><h3 data-i18n="val_e2e">خدمة شاملة</h3><p data-i18n="val_e2e_desc">نتولى كل شيء من القياس الأول حتى التسليم النهائي.</p></div>
+      <div class="val-card fade-in fade-in-delay-2"><div class="val-icon">🎨</div><h3 data-i18n="val_design">دعم التصميم</h3><p data-i18n="val_design_desc">فريقنا يعمل مع المعماريين والمصممين الداخليين.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo logo-light"><span class="logo-mark">G</span><span class="logo-text">GLAZORA</span></a>
+        <p data-i18n="footer_company">جلازورا لبيع الأبواب والنوافذ ذ.م.م</p>
+        <p data-i18n="footer_location">المنطقة الصناعية الحيل، الفجيرة، الإمارات العربية المتحدة</p>
+        <p class="footer-cr" data-i18n="footer_rights">© 2025 جلازورا. جميع الحقوق محفوظة.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_products">المنتجات</h4>
+        <a href="products.html" data-i18n="prod_curtain">أنظمة الستارة الزجاجية</a>
+        <a href="products.html" data-i18n="prod_sliding">الأنظمة المنزلقة</a>
+        <a href="products.html" data-i18n="prod_doors">الأبواب</a>
+        <a href="products.html" data-i18n="prod_pergola">البرجولات</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_company_col">الشركة</h4>
+        <a href="about.html" data-i18n="footer_about">من نحن</a>
+        <a href="contact.html" data-i18n="footer_contact">تواصل معنا</a>
+        <a href="signin.html" data-i18n="nav_portal">بوابة العملاء</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_contact_col">تواصل معنا</h4>
+        <p data-i18n="loc_val">المنطقة الصناعية الحيل، الفجيرة، الإمارات</p>
+        <a href="mailto:info@glazora.ae">info@glazora.ae</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script>
+function toggleLang() {
+  const newLang = currentLang === 'ar' ? 'en' : 'ar';
+  setLang(newLang);
+  document.getElementById('langToggle').textContent = newLang === 'ar' ? 'EN' : 'ع';
+  document.getElementById('langToggleMobile').textContent = newLang === 'ar' ? 'EN' : 'ع';
+}
+</script>
+</body>
+</html>

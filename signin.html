@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>بوابة العملاء – جلازورا</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <!-- LEFT: Branding panel -->
+  <div class="auth-left">
+    <div class="auth-left-content">
+      <a href="index.html" class="logo logo-light"><span class="logo-mark">G</span><span class="logo-text">GLAZORA</span></a>
+      <h2 data-i18n-html="signin_brand_html">مشروعك،<br/><em>دائماً في متناول يدك</em></h2>
+      <p data-i18n="portal_sub">سجّل دخولك إلى بوابتك الخاصة لمتابعة مشروعك في الوقت الفعلي.</p>
+      <div class="auth-features">
+        <div class="auth-feature"><span class="af-icon">📸</span><span data-i18n="pf_photos_sub">صور حية من الموقع في كل مرحلة</span></div>
+        <div class="auth-feature"><span class="af-icon">📊</span><span data-i18n="pf_status_sub">تحديثات مباشرة على مرحلة البناء</span></div>
+        <div class="auth-feature"><span class="af-icon">📄</span><span data-i18n="pf_quote_sub">عرض وتنزيل واعتماد عرض السعر</span></div>
+        <div class="auth-feature"><span class="af-icon">💳</span><span data-i18n="pf_pay_sub">تابع المبالغ المدفوعة والمتبقية</span></div>
+      </div>
+    </div>
+    <div style="position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;">
+      <p style="color:rgba(255,255,255,0.25);font-size:12px;" data-i18n="footer_company">جلازورا لبيع الأبواب والنوافذ ذ.م.م</p>
+      <button class="lang-toggle" onclick="toggleLang()" id="langToggleAuth">EN</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: Auth forms -->
+  <div class="auth-right">
+    <div class="auth-box">
+
+      <!-- STEP 1: Input -->
+      <div id="step1">
+        <h3 data-i18n="signin_title">مرحباً بعودتك</h3>
+        <p class="auth-sub" data-i18n="signin_sub">سجّل دخولك باستخدام بريدك الإلكتروني أو رقم هاتفك.</p>
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="email" onclick="switchTab('email')" data-i18n="tab_email">✉️ البريد الإلكتروني</button>
+          <button class="auth-tab" data-tab="phone" onclick="switchTab('phone')" data-i18n="tab_mobile">📱 الجوال</button>
+        </div>
+        <div id="emailInput">
+          <div class="form-group">
+            <label data-i18n="email_label_auth">البريد الإلكتروني</label>
+            <input type="email" id="emailField" data-i18n="email_ph" placeholder="you@example.com" autocomplete="email"/>
+          </div>
+        </div>
+        <div id="phoneInput" style="display:none;">
+          <div class="form-group">
+            <label data-i18n="phone_label">رقم الجوال</label>
+            <input type="tel" id="phoneField" placeholder="+971 50 000 0000" autocomplete="tel"/>
+          </div>
+        </div>
+        <div id="sendError" class="auth-error" style="display:none;"></div>
+        <button class="btn-primary" id="sendOTPBtn" style="width:100%;justify-content:center;margin-top:8px;" onclick="sendOTP()">
+          <span data-i18n="send_otp">إرسال رمز التحقق ←</span>
+        </button>
+        <div class="auth-divider"><span>أو</span></div>
+        <p style="text-align:center;font-size:13px;color:var(--gray-400);" data-i18n="no_account">لا تملك حساباً؟ يتم إنشاء حسابك من قِبل جلازورا عند بدء مشروعك.</p>
+        <p style="text-align:center;margin-top:6px;"><a href="contact.html" style="color:var(--green-600);font-size:13px;font-weight:600;" data-i18n="contact_us_link">تواصل معنا للبدء ←</a></p>
+      </div>
+
+      <!-- STEP 2: OTP -->
+      <div id="step2" style="display:none;">
+        <h3 data-i18n="otp_title">أدخل رمز التحقق</h3>
+        <p class="auth-sub" id="otpSubtext"></p>
+        <div class="otp-inputs" id="otpInputs">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric"/>
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric"/>
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric"/>
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric"/>
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric"/>
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric"/>
+        </div>
+        <div id="otpError" class="auth-error" style="display:none;"></div>
+        <button class="btn-primary" id="verifyOTPBtn" style="width:100%;justify-content:center;" onclick="verifyOTP()">
+          <span data-i18n="otp_verify">تحقق وتسجيل الدخول ←</span>
+        </button>
+        <div class="auth-back" style="margin-top:16px;text-align:center;">
+          <a href="#" onclick="backToStep1()" data-i18n="otp_back">← تجربة رقم / بريد مختلف</a>
+        </div>
+        <p style="text-align:center;font-size:12px;color:var(--gray-400);margin-top:12px;">
+          <span data-i18n="otp_resend_pre">لم تستلمه؟</span>
+          <a href="#" onclick="sendOTP(true)" style="color:var(--green-600);margin-inline-start:4px;" data-i18n="otp_resend">إعادة إرسال الرمز</a>
+        </p>
+      </div>
+
+      <!-- STEP 3: No project yet -->
+      <div id="step3noproject" style="display:none;text-align:center;padding:20px 0;">
+        <div style="font-size:56px;margin-bottom:16px;">🏗️</div>
+        <h3 style="font-family:var(--font-display);font-size:28px;color:var(--green-900);margin-bottom:12px;" data-i18n="no_project_title">تم تسجيل دخولك!</h3>
+        <p style="color:var(--gray-400);font-size:14px;line-height:1.7;margin-bottom:24px;" data-i18n="no_project_sub">حسابك نشط، لكن لم يرتبط بمشروع بعد.</p>
+        <div style="background:var(--green-100);border-radius:var(--radius);padding:20px;margin-bottom:24px;text-align:start;">
+          <div style="font-weight:600;color:var(--green-800);margin-bottom:8px;" data-i18n="no_project_next">ماذا بعد؟</div>
+          <p style="font-size:13px;color:var(--gray-600);line-height:1.7;" data-i18n="no_project_detail">سيقوم منسق المشروع لدينا بربط حسابك بمشروعك خلال 24 ساعة من بدء المشروع.</p>
+        </div>
+        <a href="contact.html" class="btn-outline" data-i18n="contact_team">تواصل مع فريقنا</a><br/>
+        <a href="index.html" style="font-size:13px;color:var(--gray-400);margin-top:12px;display:inline-block;" data-i18n="back_to_website">← العودة إلى الموقع</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script>
+// Redirect if already logged in
+if (Auth.isLoggedIn()) window.location.href = 'dashboard.html';
+
+let activeTab = 'email';
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById('emailInput').style.display = tab === 'email' ? 'block' : 'none';
+  document.getElementById('phoneInput').style.display = tab === 'phone' ? 'block' : 'none';
+}
+
+function toggleLang() {
+  const newLang = currentLang === 'ar' ? 'en' : 'ar';
+  setLang(newLang);
+  document.getElementById('langToggleAuth').textContent = newLang === 'ar' ? 'EN' : 'ع';
+}
+
+async function sendOTP(isResend = false) {
+  const contact = activeTab === 'email'
+    ? document.getElementById('emailField').value.trim()
+    : document.getElementById('phoneField').value.trim();
+
+  if (!contact) {
+    showError('sendError', currentLang === 'ar' ? 'يرجى إدخال البريد الإلكتروني أو رقم الجوال' : 'Please enter your email or phone');
+    return;
+  }
+
+  const btn = document.getElementById('sendOTPBtn');
+  setLoading(btn, true);
+  hideError('sendError');
+
+  const { ok, data } = await AuthAPI.sendOTP(contact, activeTab, currentLang);
+  setLoading(btn, false);
+
+  if (ok) {
+    if (!isResend) {
+      document.getElementById('step1').style.display = 'none';
+      document.getElementById('step2').style.display = 'block';
+      document.querySelectorAll('.otp-input')[0].focus();
+    }
+    document.getElementById('otpSubtext').textContent =
+      currentLang === 'ar'
+        ? `تم إرسال رمز التحقق إلى ${contact}`
+        : `Verification code sent to ${contact}`;
+    if (isResend) showToast(currentLang === 'ar' ? 'تم إعادة إرسال الرمز' : 'Code resent!');
+  } else {
+    showError('sendError', data.message || 'Failed to send OTP');
+  }
+}
+
+async function verifyOTP() {
+  const otp = Array.from(document.querySelectorAll('.otp-input')).map(i => i.value).join('');
+  if (otp.length !== 6) {
+    showError('otpError', currentLang === 'ar' ? 'يرجى إدخال الرمز كاملاً' : 'Please enter the complete code');
+    return;
+  }
+
+  const contact = activeTab === 'email'
+    ? document.getElementById('emailField').value.trim()
+    : document.getElementById('phoneField').value.trim();
+
+  const btn = document.getElementById('verifyOTPBtn');
+  setLoading(btn, true);
+  hideError('otpError');
+
+  const { ok, data } = await AuthAPI.verifyOTP(contact, otp, currentLang);
+  setLoading(btn, false);
+
+  if (ok) {
+    Auth.setToken(data.token);
+    Auth.setClient(data.client);
+    if (data.hasProject && data.projects.length > 0) {
+      localStorage.setItem('glazora_project_id', data.projects[0].project_id);
+      window.location.href = 'dashboard.html';
+    } else {
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('step3noproject').style.display = 'block';
+    }
+  } else {
+    showError('otpError', data.message || t('otp_wrong'));
+    // Shake effect
+    document.getElementById('otpInputs').style.animation = 'shake 0.4s ease';
+    setTimeout(() => document.getElementById('otpInputs').style.animation = '', 400);
+  }
+}
+
+function backToStep1() {
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step1').style.display = 'block';
+  document.querySelectorAll('.otp-input').forEach(i => i.value = '');
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg; el.style.display = 'block';
+}
+function hideError(id) {
+  const el = document.getElementById(id);
+  el.style.display = 'none';
+}
+
+// OTP keyboard navigation
+document.addEventListener('DOMContentLoaded', () => {
+  const inputs = document.querySelectorAll('.otp-input');
+  inputs.forEach((inp, i) => {
+    inp.addEventListener('input', () => {
+      inp.value = inp.value.replace(/\D/g, '');
+      if (inp.value && i < inputs.length - 1) inputs[i + 1].focus();
+      if (getOTPValue().length === 6) verifyOTP();
+    });
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !inp.value && i > 0) inputs[i - 1].focus();
+    });
+    inp.addEventListener('paste', e => {
+      e.preventDefault();
+      const paste = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+      inputs.forEach((el, j) => { if (paste[j]) el.value = paste[j]; });
+      if (paste.length >= 6) verifyOTP();
+    });
+  });
+});
+
+function getOTPValue() {
+  return Array.from(document.querySelectorAll('.otp-input')).map(i => i.value).join('');
+}
+</script>
+<style>
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)}
+}
+.auth-error { color:#c0392b; font-size:13px; padding:10px 14px; background:#fdecea; border-radius:8px; margin-bottom:12px; }
+</style>
+</body>
+</html>

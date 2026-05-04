@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>لوحة التحكم – جلازورا</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── Admin-specific styles ── */
+    .admin-wrap { display:block; min-height:100vh; }
+    .admin-sidebar {
+      background:var(--green-900); position:fixed; top:0; bottom:0;
+      width:240px; display:flex; flex-direction:column; z-index:200;
+    }
+    [dir="ltr"] .admin-sidebar { left:0; }
+    [dir="rtl"]  .admin-sidebar { right:0; }
+    .admin-main { margin-inline-start:240px; background:var(--off-white); min-height:100vh; }
+    .admin-topbar { background:var(--white); border-bottom:1px solid var(--gray-200); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+    .admin-topbar h2 { font-family:var(--font-display); font-size:22px; color:var(--green-900); }
+    .admin-body { padding:28px; }
+    .admin-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px; }
+    .stat-card { background:var(--white); border-radius:var(--radius); padding:24px; border:1px solid var(--gray-200); }
+    .stat-card.green { background:var(--green-900); border-color:var(--green-900); }
+    .stat-card .label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--gray-400); margin-bottom:10px; }
+    .stat-card.green .label { color:rgba(255,255,255,0.45); }
+    .stat-card .value { font-family:var(--font-display); font-size:32px; color:var(--green-900); line-height:1; }
+    .stat-card.green .value { color:var(--white); }
+    .stat-card .sub { font-size:12px; color:var(--gray-400); margin-top:4px; }
+    .stat-card.green .sub { color:rgba(255,255,255,0.4); }
+    .panel { background:var(--white); border-radius:var(--radius); border:1px solid var(--gray-200); margin-bottom:20px; overflow:hidden; }
+    .panel-header { display:flex; align-items:center; justify-content:space-between; padding:18px 24px; border-bottom:1px solid var(--gray-100); }
+    .panel-header h3 { font-family:var(--font-display); font-size:20px; color:var(--green-900); }
+    .panel-body { padding:20px 24px; }
+    .admin-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .admin-table th { background:var(--off-white); color:var(--gray-500); font-weight:600; padding:10px 14px; text-align:start; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; white-space:nowrap; }
+    .admin-table td { padding:12px 14px; border-bottom:1px solid var(--gray-100); color:var(--green-900); vertical-align:middle; }
+    .admin-table tr:last-child td { border-bottom:none; }
+    .admin-table tr:hover td { background:var(--off-white); }
+    .status-pill { display:inline-block; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:700; }
+    .pill-active    { background:var(--green-100); color:var(--green-700); }
+    .pill-pending   { background:#fef3cd; color:#856404; }
+    .pill-completed { background:#d4edda; color:#155724; }
+    .pill-new       { background:#cce5ff; color:#004085; }
+    .pill-contacted { background:var(--green-100); color:var(--green-700); }
+    .connected-tag  { background:var(--green-100); color:var(--green-700); padding:3px 10px; border-radius:100px; font-size:11px; font-weight:700; }
+    .unconnected-tag { background:var(--gray-100); color:var(--gray-400); padding:3px 10px; border-radius:100px; font-size:11px; }
+    .action-btn { padding:6px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; border:1.5px solid; transition:var(--transition); }
+    .action-btn.primary { background:var(--green-700); color:#fff; border-color:var(--green-700); }
+    .action-btn.primary:hover { background:var(--green-600); }
+    .action-btn.outline { background:transparent; color:var(--green-700); border-color:var(--green-300); }
+    .action-btn.outline:hover { background:var(--green-100); }
+    .action-btn.danger { background:transparent; color:#c0392b; border-color:#f5c6cb; }
+    .action-btn.danger:hover { background:#fdecea; }
+    /* Modal */
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:5000; display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
+    .modal { background:var(--white); border-radius:20px; width:100%; max-width:520px; max-height:90vh; overflow-y:auto; box-shadow:var(--shadow-lg); }
+    .modal-header { display:flex; align-items:center; justify-content:space-between; padding:20px 24px; border-bottom:1px solid var(--gray-200); }
+    .modal-header h3 { font-family:var(--font-display); font-size:22px; color:var(--green-900); }
+    .modal-close { font-size:22px; color:var(--gray-400); cursor:pointer; line-height:1; background:none; border:none; }
+    .modal-body { padding:24px; }
+    .modal-footer { padding:16px 24px; border-top:1px solid var(--gray-200); display:flex; gap:12px; justify-content:flex-end; }
+    /* Sidebar nav */
+    .admin-nav-item { display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:10px; cursor:pointer; font-size:14px; color:rgba(255,255,255,0.55); transition:var(--transition); margin-bottom:4px; }
+    .admin-nav-item:hover { background:rgba(255,255,255,0.08); color:var(--white); }
+    .admin-nav-item.active { background:rgba(255,255,255,0.12); color:var(--white); }
+    .admin-nav-item .nav-icon { font-size:17px; width:22px; text-align:center; flex-shrink:0; }
+    .admin-section-label { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:rgba(255,255,255,0.25); padding:8px 14px 4px; }
+    /* login screen */
+    .admin-login-wrap { min-height:100vh; background:var(--green-900); display:flex; align-items:center; justify-content:center; }
+    .admin-login-box { background:var(--white); border-radius:24px; padding:48px 40px; width:100%; max-width:400px; box-shadow:var(--shadow-lg); }
+    .admin-login-box h2 { font-family:var(--font-display); font-size:32px; color:var(--green-900); margin-bottom:6px; }
+    .admin-login-box p { font-size:14px; color:var(--gray-400); margin-bottom:28px; }
+    /* Progress bar */
+    .mini-progress { height:6px; background:var(--gray-100); border-radius:100px; overflow:hidden; margin-top:6px; }
+    .mini-progress-fill { height:100%; background:linear-gradient(90deg,var(--green-600),var(--green-400)); border-radius:100px; }
+    /* Hide sidebar scrollbar */
+    .admin-sidebar nav { scrollbar-width:none; -ms-overflow-style:none; }
+    .admin-sidebar nav::-webkit-scrollbar { display:none; }
+    /* Sidebar slide transition */
+    .admin-sidebar { transition:transform 0.3s ease; }
+    /* Mobile backdrop */
+    .sidebar-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:199; }
+    /* Hamburger: hidden on large screens, visible on mobile via CSS */
+    #adminHamburger { display:none; }
+    @media (max-width:900px) {
+      #adminHamburger { display:flex; }
+      .admin-sidebar { transform:translateX(-100%); }
+      [dir="rtl"] .admin-sidebar { transform:translateX(100%); }
+      .admin-sidebar.open { transform:translateX(0); }
+      .admin-main { margin-inline-start:0; }
+      .admin-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:540px) { .admin-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════════════════ -->
+<div id="loginScreen" class="admin-login-wrap">
+  <div class="admin-login-box">
+    <a href="index.html" class="logo" style="margin-bottom:28px;display:flex;">
+      <span class="logo-mark">G</span><span class="logo-text" style="color:var(--green-900);">GLAZORA</span>
+    </a>
+    <h2>Admin Login</h2>
+    <p>Sign in to the Glazora admin panel</p>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="adminEmail" value="admin@glazora.ae" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="adminPass" value="" autocomplete="current-password"/>
+    </div>
+    <div id="loginError" style="display:none;color:#c0392b;font-size:13px;padding:10px;background:#fdecea;border-radius:8px;margin-bottom:12px;"></div>
+    <button class="btn-primary" id="loginBtn" style="width:100%;justify-content:center;" onclick="doLogin()">
+      Sign In →
+    </button>
+    <p style="text-align:center;margin-top:16px;font-size:12px;color:var(--gray-400);">
+      <a href="index.html" style="color:var(--green-600);">← Back to Website</a>
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ADMIN PANEL
+════════════════════════════════════════════ -->
+<div id="adminPanel" class="admin-wrap" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div style="padding:20px 16px;border-bottom:1px solid rgba(255,255,255,0.06);">
+      <a href="index.html" class="logo logo-light"><span class="logo-mark">G</span><span class="logo-text">GLAZORA</span></a>
+      <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:6px;padding-inline-start:4px;">Admin Panel</div>
+    </div>
+    <nav style="padding:16px 12px;flex:1;overflow-y:auto;">
+      <div class="admin-section-label">Main</div>
+      <div class="admin-nav-item active" onclick="showSection('dashboard')"><span class="nav-icon">📊</span> Dashboard</div>
+      <div class="admin-nav-item" onclick="showSection('projects')"><span class="nav-icon">🏗️</span> Projects</div>
+      <div class="admin-nav-item" onclick="showSection('clients')"><span class="nav-icon">👥</span> Clients</div>
+      <div class="admin-nav-item" onclick="showSection('connect')"><span class="nav-icon">🔗</span> Connect Client</div>
+      <div class="admin-section-label" style="margin-top:12px;">Financial</div>
+      <div class="admin-nav-item" onclick="showSection('payments')"><span class="nav-icon">💳</span> Payments</div>
+      <div class="admin-nav-item" onclick="showSection('quotations')"><span class="nav-icon">📄</span> Quotations</div>
+      <div class="admin-section-label" style="margin-top:12px;">Content</div>
+      <div class="admin-nav-item" onclick="showSection('photos')"><span class="nav-icon">📸</span> Site Photos</div>
+      <div class="admin-nav-item" onclick="showSection('contacts')"><span class="nav-icon">📬</span> Inquiries</div>
+      <div class="admin-section-label" style="margin-top:12px;">System</div>
+      <div class="admin-nav-item" onclick="goToWebsite()"><span class="nav-icon">🌐</span> View Website</div>
+      <div class="admin-nav-item" onclick="doLogout()"><span class="nav-icon">🚪</span> Sign Out</div>
+    </nav>
+  </aside>
+  <div id="sidebarBackdrop" class="sidebar-backdrop" onclick="closeSidebar()"></div>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="hamburger" id="adminHamburger" onclick="toggleAdminSidebar()"><span></span><span></span><span></span></button>
+        <div>
+          <h2 id="sectionTitle">Dashboard</h2>
+          <div style="font-size:12px;color:var(--gray-400);" id="adminName">Loading…</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="adminClock" style="font-size:12px;color:var(--gray-400);"></div>
+        <div class="avatar" id="adminAvatar">A</div>
+      </div>
+    </div>
+
+    <div class="admin-body">
+
+      <!-- ───── DASHBOARD ───── -->
+      <div id="sec-dashboard" class="admin-section">
+        <div class="admin-grid" id="statsRow">
+          <div class="stat-card green"><div class="label">Active Projects</div><div class="value" id="s-active">—</div><div class="sub">Currently running</div></div>
+          <div class="stat-card"><div class="label">Total Clients</div><div class="value" id="s-clients">—</div><div class="sub">Registered accounts</div></div>
+          <div class="stat-card"><div class="label">Revenue Collected</div><div class="value" id="s-paid" style="font-size:22px;">—</div><div class="sub">Total payments received</div></div>
+          <div class="stat-card"><div class="label">Unlinked Clients</div><div class="value" id="s-unlinked" style="color:var(--gold);">—</div><div class="sub">Need project connection</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:20px;">
+          <div class="panel">
+            <div class="panel-header"><h3>Recent Projects</h3><button class="action-btn outline" onclick="showSection('projects')">View All</button></div>
+            <div class="panel-body" style="padding:0;">
+              <table class="admin-table" id="dashProjectsTable"><tbody><tr><td colspan="4" style="color:var(--gray-300);padding:24px;text-align:center;">Loading…</td></tr></tbody></table>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><h3>Recent Clients</h3><button class="action-btn outline" onclick="showSection('clients')">View All</button></div>
+            <div class="panel-body" style="padding:0;">
+              <table class="admin-table" id="dashClientsTable"><tbody><tr><td colspan="3" style="color:var(--gray-300);padding:24px;text-align:center;">Loading…</td></tr></tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── PROJECTS ───── -->
+      <div id="sec-projects" class="admin-section" style="display:none;">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>All Projects</h3>
+            <div style="display:flex;gap:10px;">
+              <input type="text" id="projectSearch" placeholder="Search…" style="padding:8px 12px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;width:200px;" oninput="filterProjects()"/>
+              <button class="action-btn primary" onclick="openNewProjectModal()">+ New Project</button>
+            </div>
+          </div>
+          <div class="panel-body" style="padding:0;">
+            <table class="admin-table">
+              <thead><tr><th>Project No.</th><th>Title (AR)</th><th>Status</th><th>Progress</th><th>Phase</th><th>Actions</th></tr></thead>
+              <tbody id="projectsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── CLIENTS ───── -->
+      <div id="sec-clients" class="admin-section" style="display:none;">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>All Clients</h3>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <input type="text" id="clientSearch" placeholder="Search name / email…" style="padding:8px 12px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;width:200px;" oninput="filterClients()"/>
+              <select id="clientFilter" style="padding:8px 12px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;" onchange="filterClients()">
+                <option value="">All</option>
+                <option value="connected">Connected</option>
+                <option value="unconnected">Unconnected</option>
+              </select>
+            </div>
+          </div>
+          <div class="panel-body" style="padding:0;">
+            <table class="admin-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Lang</th><th>Projects</th><th>Actions</th></tr></thead>
+              <tbody id="clientsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── CONNECT ───── -->
+      <div id="sec-connect" class="admin-section" style="display:none;">
+        <div class="panel" style="max-width:560px;">
+          <div class="panel-header"><h3>Link Client → Project</h3></div>
+          <div class="panel-body">
+            <p style="font-size:14px;color:var(--gray-400);margin-bottom:24px;line-height:1.7;">Select a client and a project to link them. The client will receive an email notification and can then access their project dashboard.</p>
+            <div class="form-group">
+              <label>Client</label>
+              <select id="connectClientSelect" style="padding:12px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;width:100%;">
+                <option value="">— Select Client —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Project</label>
+              <select id="connectProjectSelect" style="padding:12px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;width:100%;">
+                <option value="">— Select Project —</option>
+              </select>
+            </div>
+            <div id="connectMsg" style="display:none;margin-bottom:16px;"></div>
+            <button class="btn-primary" id="connectBtn" style="width:100%;justify-content:center;" onclick="doConnect()">
+              🔗 Link Client to Project
+            </button>
+            <p style="font-size:12px;color:var(--gray-400);margin-top:12px;text-align:center;">An email notification will be sent to the client automatically.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── PAYMENTS ───── -->
+      <div id="sec-payments" class="admin-section" style="display:none;">
+        <div style="display:flex;gap:12px;margin-bottom:16px;align-items:center;">
+          <select id="paymentProjectFilter" style="padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:13px;min-width:220px;" onchange="loadPayments()">
+            <option value="">— Select Project —</option>
+          </select>
+          <button class="action-btn primary" onclick="openAddPaymentModal()">+ Add Payment</button>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h3>Payment Schedule</h3></div>
+          <div class="panel-body" style="padding:0;">
+            <table class="admin-table">
+              <thead><tr><th>Milestone (AR)</th><th>Milestone (EN)</th><th>Amount (AED)</th><th>Status</th><th>Due Date</th><th>Paid At</th><th>Actions</th></tr></thead>
+              <tbody id="paymentsTable"><tr><td colspan="7" style="padding:24px;text-align:center;color:var(--gray-300);">Select a project above</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── QUOTATIONS ───── -->
+      <div id="sec-quotations" class="admin-section" style="display:none;">
+        <div style="display:flex;gap:12px;margin-bottom:16px;align-items:center;">
+          <select id="quotProjectFilter" style="padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:13px;min-width:220px;" onchange="loadQuotations()">
+            <option value="">— Select Project —</option>
+          </select>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h3>Quotations</h3></div>
+          <div class="panel-body" style="padding:0;">
+            <table class="admin-table">
+              <thead><tr><th>Quotation No.</th><th>Project</th><th>Subtotal</th><th>VAT</th><th>Total</th><th>Status</th><th>Client Approved</th></tr></thead>
+              <tbody id="quotationsTable"><tr><td colspan="7" style="padding:24px;text-align:center;color:var(--gray-300);">Select a project above</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── PHOTOS ───── -->
+      <div id="sec-photos" class="admin-section" style="display:none;">
+        <div class="panel" style="max-width:600px;margin-bottom:20px;">
+          <div class="panel-header"><h3>Upload Site Photos</h3></div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label>Project</label>
+              <select id="photoProjectSelect" style="padding:12px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;width:100%;">
+                <option value="">— Select Project —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Phase</label>
+              <select id="photoPhase" style="padding:12px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;width:100%;">
+                <option value="before">Before – قبل</option>
+                <option value="during" selected>During – أثناء</option>
+                <option value="after">After – بعد</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Caption (Arabic)</label><input type="text" id="captionAr" placeholder="وصف عربي..."/></div>
+              <div class="form-group"><label>Caption (English)</label><input type="text" id="captionEn" placeholder="English caption..."/></div>
+            </div>
+            <div class="form-group">
+              <label>Photos (up to 20)</label>
+              <input type="file" id="photoFiles" multiple accept="image/*" style="padding:10px;border:1.5px dashed var(--gray-300);border-radius:10px;width:100%;cursor:pointer;"/>
+            </div>
+            <div id="photoMsg" style="display:none;margin-bottom:12px;"></div>
+            <button class="btn-primary" id="uploadBtn" style="width:100%;justify-content:center;" onclick="uploadPhotos()">
+              📤 Upload Photos
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ───── CONTACTS / INQUIRIES ───── -->
+      <div id="sec-contacts" class="admin-section" style="display:none;">
+        <div class="panel">
+          <div class="panel-header"><h3>Contact Inquiries</h3></div>
+          <div class="panel-body" style="padding:0;">
+            <table class="admin-table">
+              <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Project Type</th><th>Emirate</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+              <tbody id="contactsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end admin-body -->
+  </main>
+</div><!-- end admin-wrap -->
+
+<!-- ═══════════════════════════════════════════
+     MODALS
+════════════════════════════════════════════ -->
+
+<!-- New Project Modal -->
+<div class="modal-overlay" id="newProjectModal" style="display:none;">
+  <div class="modal">
+    <div class="modal-header"><h3>New Project</h3><button class="modal-close" onclick="closeModal('newProjectModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Project Number *</label><input type="text" id="np-number" placeholder="GZ-2025-XXX"/></div>
+        <div class="form-group"><label>Type</label>
+          <select id="np-type"><option value="">Select type</option><option>villa</option><option>commercial</option><option>industrial</option><option>compound</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label>Title (Arabic) *</label><input type="text" id="np-title-ar" placeholder="اسم المشروع بالعربي"/></div>
+      <div class="form-group"><label>Title (English) *</label><input type="text" id="np-title-en" placeholder="Project name in English"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>Location (AR)</label><input type="text" id="np-loc-ar" placeholder="دبي، الإمارات"/></div>
+        <div class="form-group"><label>Location (EN)</label><input type="text" id="np-loc-en" placeholder="Dubai, UAE"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Start Date</label><input type="date" id="np-start"/></div>
+        <div class="form-group"><label>Expected End</label><input type="date" id="np-end"/></div>
+      </div>
+      <div class="form-group"><label>Site Supervisor</label><input type="text" id="np-supervisor" placeholder="Ahmed Al Mansoori"/></div>
+      <div class="form-group"><label>Description (AR)</label><textarea id="np-desc-ar" rows="3" placeholder="وصف المشروع..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="action-btn outline" onclick="closeModal('newProjectModal')">Cancel</button>
+      <button class="action-btn primary" onclick="createProject()">Create Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Payment Modal -->
+<div class="modal-overlay" id="addPaymentModal" style="display:none;">
+  <div class="modal">
+    <div class="modal-header"><h3>Add Payment</h3><button class="modal-close" onclick="closeModal('addPaymentModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Milestone Name (Arabic)</label><input type="text" id="pay-name-ar" placeholder="دفعة أولى 30%"/></div>
+      <div class="form-group"><label>Milestone Name (English)</label><input type="text" id="pay-name-en" placeholder="Initial deposit 30%"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>Amount (AED) *</label><input type="number" id="pay-amount" placeholder="28500"/></div>
+        <div class="form-group"><label>% of Total</label><input type="number" id="pay-pct" placeholder="30"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Status</label>
+          <select id="pay-status"><option value="pending">Pending</option><option value="paid">Paid</option><option value="overdue">Overdue</option></select>
+        </div>
+        <div class="form-group"><label>Due Date</label><input type="date" id="pay-due"/></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="action-btn outline" onclick="closeModal('addPaymentModal')">Cancel</button>
+      <button class="action-btn primary" onclick="addPayment()">Add Payment</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script>
+// Override currentLang for admin (always EN)
+currentLang = 'en';
+
+// ── Auth ──────────────────────────────────────
+async function doLogin() {
+  const email = document.getElementById('adminEmail').value.trim();
+  const pass  = document.getElementById('adminPass').value;
+  const btn   = document.getElementById('loginBtn');
+  if (!email || !pass) return;
+
+  setLoading(btn, true);
+  document.getElementById('loginError').style.display = 'none';
+  const { ok, data } = await AuthAPI.adminLogin(email, pass);
+  setLoading(btn, false);
+
+  if (ok) {
+    Auth.setAdminToken(data.token);
+    localStorage.setItem('glazora_admin', JSON.stringify(data.admin));
+    bootAdmin(data.admin);
+  } else {
+    const el = document.getElementById('loginError');
+    el.textContent = data.message || 'Login failed';
+    el.style.display = 'block';
+  }
+}
+
+document.getElementById('adminPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+function bootAdmin(admin) {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminPanel').style.display  = 'block';
+  document.getElementById('adminName').textContent = admin.name + ' (' + admin.role + ')';
+  document.getElementById('adminAvatar').textContent = admin.name.charAt(0).toUpperCase();
+  startClock();
+  loadDashboard();
+  loadAllProjects(); // preload for selects
+  loadAllClients();
+}
+
+function doLogout() {
+  if (!confirm('Sign out of admin panel?')) return;
+  Auth.removeAdminToken();
+  localStorage.removeItem('glazora_admin');
+  window.location.reload();
+}
+
+function goToWebsite() { window.open('index.html', '_blank'); }
+
+// Clock
+function startClock() {
+  function tick() {
+    const now = new Date();
+    document.getElementById('adminClock').textContent = now.toLocaleTimeString('en-AE');
+  }
+  tick(); setInterval(tick, 1000);
+}
+
+// Auto-login if token exists
+window.addEventListener('DOMContentLoaded', async () => {
+  if (Auth.isAdminLoggedIn()) {
+    const { ok, data } = await AuthAPI.adminMe();
+    if (ok) bootAdmin(data.admin);
+    else { Auth.removeAdminToken(); }
+  }
+});
+
+// ── Section routing ───────────────────────────
+const SECTION_TITLES = {
+  dashboard:'Dashboard', projects:'Projects', clients:'Clients',
+  connect:'Link Client → Project', payments:'Payments',
+  quotations:'Quotations', photos:'Site Photos', contacts:'Inquiries'
+};
+let allProjects = [], allClients = [];
+
+function showSection(name) {
+  document.querySelectorAll('.admin-section').forEach(s => s.style.display = 'none');
+  document.getElementById('sec-' + name).style.display = 'block';
+  document.querySelectorAll('.admin-nav-item').forEach(i => i.classList.remove('active'));
+  const idx = Object.keys(SECTION_TITLES).indexOf(name);
+  document.querySelectorAll('.admin-nav-item')[idx]?.classList.add('active');
+  document.getElementById('sectionTitle').textContent = SECTION_TITLES[name];
+
+  if (name === 'projects')   renderProjectsTable(allProjects);
+  if (name === 'clients')    renderClientsTable(allClients);
+  if (name === 'contacts')   loadContacts();
+  if (name === 'connect')    populateConnectSelects();
+  if (name === 'photos')     populatePhotoProjectSelect();
+  if (name === 'payments')   populateProjectFilters();
+  if (name === 'quotations') populateProjectFilters();
+
+  // Close mobile menu when a section is selected
+  if (window.innerWidth < 900) closeSidebar();
+}
+
+// ── Dashboard ─────────────────────────────────
+async function loadDashboard() {
+  const { ok, data } = await AdminAPI.getDashboard();
+  if (!ok) {
+    const errRow4 = `<tr><td colspan="4" style="padding:20px;text-align:center;color:#c0392b;">⚠ ${data.message || 'Failed to load data'}</td></tr>`;
+    const errRow3 = `<tr><td colspan="3" style="padding:20px;text-align:center;color:#c0392b;">⚠ ${data.message || 'Failed to load data'}</td></tr>`;
+    ['s-active','s-clients','s-unlinked'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '!'; });
+    const paid = document.getElementById('s-paid'); if (paid) paid.textContent = 'Error';
+    document.getElementById('dashProjectsTable').querySelector('tbody').innerHTML = errRow4;
+    document.getElementById('dashClientsTable').querySelector('tbody').innerHTML = errRow3;
+    showToast(data.message || 'Failed to load dashboard data', 'error');
+    return;
+  }
+  const s = data.stats;
+  document.getElementById('s-active').textContent   = s.projects.active;
+  document.getElementById('s-clients').textContent  = s.clients.total;
+  document.getElementById('s-paid').textContent     = 'AED ' + Number(s.payments.paid || 0).toLocaleString();
+  document.getElementById('s-unlinked').textContent = s.unconnectedClients;
+
+  // Recent projects table
+  const tbody = document.getElementById('dashProjectsTable').querySelector('tbody');
+  tbody.innerHTML = (data.recentProjects || []).map(p => {
+    const pct = p.completion_pct || 0;
+    return `<tr>
+      <td><strong style="color:var(--green-700);">${p.project_number}</strong></td>
+      <td>${p.title_ar}</td>
+      <td><span class="status-pill pill-${p.status}">${p.status}</span></td>
+      <td style="min-width:100px;">
+        <div>${Math.round(pct)}%</div>
+        <div class="mini-progress"><div class="mini-progress-fill" style="width:${pct}%;"></div></div>
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="4" style="padding:20px;text-align:center;color:var(--gray-300);">No projects yet</td></tr>';
+
+  // Recent clients table
+  const ctbody = document.getElementById('dashClientsTable').querySelector('tbody');
+  ctbody.innerHTML = (data.recentClients || []).map(c => `
+    <tr>
+      <td>${c.name || '<em style="color:var(--gray-300)">—</em>'}</td>
+      <td style="font-size:12px;">${c.email || c.phone || '—'}</td>
+      <td>${parseInt(c.project_count) > 0
+        ? `<span class="connected-tag">✓ Connected</span>`
+        : `<span class="unconnected-tag">Unlinked</span>`}</td>
+    </tr>`).join('') || '<tr><td colspan="3" style="padding:20px;text-align:center;color:var(--gray-300);">No clients yet</td></tr>';
+}
+
+// ── Projects ──────────────────────────────────
+async function loadAllProjects() {
+  const { ok, data } = await AdminAPI.getProjects();
+  if (!ok) {
+    showToast(data.message || 'Failed to load projects', 'error');
+    return;
+  }
+  allProjects = data.projects || [];
+  populateProjectSelects();
+}
+
+function renderProjectsTable(projects) {
+
+  const query = (document.getElementById('projectSearch')?.value || '').toLowerCase();
+  const rows = projects.filter(p =>
+    !query || p.project_number.toLowerCase().includes(query) ||
+    p.title_ar.includes(query) || (p.title_en || '').toLowerCase().includes(query)
+  );
+  document.getElementById('projectsTable').innerHTML = rows.map(p => {
+    const pct = p.completion_pct || 0;
+    return `<tr>
+      <td><strong style="color:var(--green-700);">${p.project_number}</strong></td>
+      <td>${p.title_ar}<br/><span style="font-size:11px;color:var(--gray-400);">${p.title_en || ''}</span></td>
+      <td>
+        <select class="action-btn outline" style="padding:4px 8px;" onchange="updateProjectStatus('${p.id}', this.value)">
+          ${['pending','active','on_hold','completed','cancelled'].map(s =>
+            `<option value="${s}" ${p.status===s?'selected':''}>${s}</option>`
+          ).join('')}
+        </select>
+      </td>
+      <td style="min-width:120px;">
+        ${Math.round(pct)}%
+        <div class="mini-progress"><div class="mini-progress-fill" style="width:${pct}%;"></div></div>
+      </td>
+      <td>${p.current_phase || 0} / ${p.total_phases || 5}</td>
+      <td style="white-space:nowrap;">
+        <button class="action-btn primary" onclick="viewProject('${p.id}')">View</button>
+        <button class="action-btn outline" style="margin-inline-start:4px;" onclick="updateCompletion('${p.id}', ${pct})">% Update</button>
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" style="padding:24px;text-align:center;color:var(--gray-300);">No projects found</td></tr>';
+  }
+
+function filterProjects() { renderProjectsTable(allProjects); }
+
+async function updateProjectStatus(id, status) {
+  const { ok } = await AdminAPI.updateProject(id, { status });
+  if (ok) { showToast('Project status updated'); await loadAllProjects(); }
+}
+
+async function updateCompletion(id, current) {
+  const pct = prompt('Enter completion %:', Math.round(current));
+  if (pct === null) return;
+  const { ok } = await AdminAPI.updateProject(id, { completion_pct: parseFloat(pct) });
+  if (ok) { showToast('Completion updated'); await loadAllProjects(); renderProjectsTable(allProjects); }
+}
+
+function viewProject(id) {
+  const p = allProjects.find(x => x.id === id);
+  if (p) alert(`Project: ${p.project_number}\n${p.title_ar}\n${p.title_en}\nStatus: ${p.status}\nProgress: ${Math.round(p.completion_pct)}%\nPhase: ${p.current_phase}/${p.total_phases}\nSupervisor: ${p.supervisor_name || '—'}`);
+}
+
+function openNewProjectModal() { openModal('newProjectModal'); }
+
+async function createProject() {
+  const body = {
+    project_number: document.getElementById('np-number').value.trim(),
+    title_ar:       document.getElementById('np-title-ar').value.trim(),
+    title_en:       document.getElementById('np-title-en').value.trim(),
+    project_type:   document.getElementById('np-type').value,
+    location_ar:    document.getElementById('np-loc-ar').value.trim(),
+    location_en:    document.getElementById('np-loc-en').value.trim(),
+    start_date:     document.getElementById('np-start').value,
+    expected_end_date: document.getElementById('np-end').value,
+    supervisor_name: document.getElementById('np-supervisor').value.trim(),
+    description_ar:  document.getElementById('np-desc-ar').value.trim(),
+  };
+  if (!body.project_number || !body.title_ar || !body.title_en) {
+    return showToast('Project number and titles are required', 'error');
+  }
+  const { ok, data } = await AdminAPI.createProject(body);
+  if (ok) {
+    showToast('Project created: ' + body.project_number);
+    closeModal('newProjectModal');
+    await loadAllProjects();
+    renderProjectsTable(allProjects);
+  } else {
+    showToast(data.message || 'Failed to create project', 'error');
+  }
+}
+
+// ── Clients ───────────────────────────────────
+async function loadAllClients() {
+  const { ok, data } = await AdminAPI.getClients();
+  if (!ok) {
+    showToast(data.message || 'Failed to load clients', 'error');
+    return;
+  }
+  allClients = data.clients || [];
+}
+
+function renderClientsTable(clients) {
+  const query = (document.getElementById('clientSearch')?.value || '').toLowerCase();
+  const conn  = document.getElementById('clientFilter')?.value || '';
+  const rows = clients.filter(c => {
+    const matchQ = !query || (c.name||'').toLowerCase().includes(query) || (c.email||'').toLowerCase().includes(query) || (c.phone||'').toLowerCase().includes(query);
+    const matchC = !conn ||
+      (conn === 'connected' && c.projects?.length > 0) ||
+      (conn === 'unconnected' && (!c.projects || c.projects.length === 0));
+    return matchQ && matchC;
+  });
+
+  document.getElementById('clientsTable').innerHTML = rows.map(c => {
+    const hasProject = c.projects && c.projects.length > 0;
+    const projLabel = hasProject
+      ? c.projects.map(p => `<span class="connected-tag">${p.project_number}</span>`).join(' ')
+      : '<span class="unconnected-tag">Unlinked</span>';
+    return `<tr>
+      <td>${c.name || '<em style="color:var(--gray-300)">—</em>'}</td>
+      <td style="font-size:12px;">${c.email || '—'}</td>
+      <td style="font-size:12px;">${c.phone || '—'}</td>
+      <td><span style="font-size:12px;background:var(--gray-100);padding:2px 8px;border-radius:100px;">${c.preferred_lang?.toUpperCase() || 'AR'}</span></td>
+      <td>${projLabel}</td>
+      <td>
+        ${!hasProject ? `<button class="action-btn primary" onclick="quickConnect('${c.id}')">Link Project</button>` : ''}
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" style="padding:24px;text-align:center;color:var(--gray-300);">No clients found</td></tr>';
+}
+
+function filterClients() { renderClientsTable(allClients); }
+
+function quickConnect(clientId) {
+  showSection('connect');
+  setTimeout(() => {
+    document.getElementById('connectClientSelect').value = clientId;
+  }, 100);
+}
+
+// ── Connect ───────────────────────────────────
+function populateConnectSelects() {
+  const cs = document.getElementById('connectClientSelect');
+  const ps = document.getElementById('connectProjectSelect');
+  cs.innerHTML = '<option value="">— Select Client —</option>' +
+    allClients.map(c => `<option value="${c.id}">${c.name || c.email || c.phone} (${c.email || c.phone})</option>`).join('');
+  ps.innerHTML = '<option value="">— Select Project —</option>' +
+    allProjects.map(p => `<option value="${p.id}">${p.project_number} – ${p.title_ar}</option>`).join('');
+}
+
+async function doConnect() {
+  const clientId  = document.getElementById('connectClientSelect').value;
+  const projectId = document.getElementById('connectProjectSelect').value;
+  if (!clientId || !projectId) return showToast('Select both a client and a project', 'error');
+
+  const btn = document.getElementById('connectBtn');
+  setLoading(btn, true);
+  const { ok, data } = await AdminAPI.connectClient(clientId, projectId);
+  setLoading(btn, false);
+
+  const msg = document.getElementById('connectMsg');
+  if (ok) {
+    msg.style.display = 'block';
+    msg.style.cssText = 'display:block;background:var(--green-100);color:var(--green-800);padding:12px 16px;border-radius:10px;font-size:14px;font-weight:600;';
+    msg.textContent = '✅ Client linked successfully! Email notification sent.';
+    await loadAllClients();
+    await loadAllProjects();
+  } else {
+    msg.style.cssText = 'display:block;background:#fdecea;color:#c0392b;padding:12px 16px;border-radius:10px;font-size:14px;';
+    msg.textContent = data.message || 'Connection failed';
+  }
+}
+
+// ── Payments ──────────────────────────────────
+function populateProjectFilters() {
+  ['paymentProjectFilter','quotProjectFilter'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = '<option value="">— Select Project —</option>' +
+      allProjects.map(p => `<option value="${p.id}">${p.project_number} – ${p.title_ar}</option>`).join('');
+  });
+}
+function populatePhotoProjectSelect() {
+  const sel = document.getElementById('photoProjectSelect');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Select Project —</option>' +
+    allProjects.map(p => `<option value="${p.id}">${p.project_number} – ${p.title_ar}</option>`).join('');
+}
+function populateProjectSelects() {
+  populateProjectFilters();
+  populatePhotoProjectSelect();
+}
+
+async function loadPayments() {
+  const projectId = document.getElementById('paymentProjectFilter').value;
+  if (!projectId) return;
+  const { ok, data } = await PaymentsAPI.getAll(projectId);
+  if (!ok) return;
+  const tbody = document.getElementById('paymentsTable');
+  tbody.innerHTML = (data.payments || []).map(p => `
+    <tr>
+      <td>${p.milestone_name_ar || '—'}</td>
+      <td>${p.milestone_name_en || '—'}</td>
+      <td><strong>AED ${Number(p.amount).toLocaleString()}</strong></td>
+      <td>
+        <select class="action-btn outline" style="padding:4px 8px;" onchange="updatePaymentStatus('${p.id}', this.value)">
+          ${['pending','paid','overdue'].map(s => `<option value="${s}" ${p.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td>${p.due_date ? new Date(p.due_date).toLocaleDateString('en-AE') : '—'}</td>
+      <td>${p.paid_at ? new Date(p.paid_at).toLocaleDateString('en-AE') : '—'}</td>
+      <td><button class="action-btn danger" onclick="deletePayment('${p.id}')">Delete</button></td>
+    </tr>`).join('') || '<tr><td colspan="7" style="padding:24px;text-align:center;color:var(--gray-300);">No payments found</td></tr>';
+}
+
+async function updatePaymentStatus(id, status) {
+  const { ok } = await PaymentsAPI.update(id, { status });
+  if (ok) { showToast('Payment status updated'); loadPayments(); }
+}
+
+async function deletePayment(id) {
+  if (!confirm('Delete this payment record?')) return;
+  const { ok } = await PaymentsAPI.delete(id);
+  if (ok) { showToast('Payment deleted'); loadPayments(); }
+}
+
+function openAddPaymentModal() {
+  const projectId = document.getElementById('paymentProjectFilter').value;
+  if (!projectId) return showToast('Select a project first', 'error');
+  openModal('addPaymentModal');
+}
+
+async function addPayment() {
+  const projectId = document.getElementById('paymentProjectFilter').value;
+  const body = {
+    project_id:         projectId,
+    milestone_name_ar:  document.getElementById('pay-name-ar').value.trim(),
+    milestone_name_en:  document.getElementById('pay-name-en').value.trim(),
+    amount:             parseFloat(document.getElementById('pay-amount').value),
+    pct_of_total:       parseFloat(document.getElementById('pay-pct').value) || null,
+    status:             document.getElementById('pay-status').value,
+    due_date:           document.getElementById('pay-due').value || null,
+  };
+  if (!body.amount) return showToast('Amount is required', 'error');
+  const { ok, data } = await PaymentsAPI.create(body);
+  if (ok) { showToast('Payment added'); closeModal('addPaymentModal'); loadPayments(); }
+  else showToast(data.message || 'Failed', 'error');
+}
+
+// ── Quotations ────────────────────────────────
+async function loadQuotations() {
+  const projectId = document.getElementById('quotProjectFilter').value;
+  if (!projectId) return;
+  const { ok, data } = await QuotationsAPI.getAll(projectId);
+  if (!ok) return;
+  const tbody = document.getElementById('quotationsTable');
+  tbody.innerHTML = (data.quotations || []).map(q => `
+    <tr>
+      <td><strong style="color:var(--green-700);">${q.quotation_number}</strong></td>
+      <td>${q.project_number}</td>
+      <td>AED ${Number(q.subtotal).toLocaleString()}</td>
+      <td>${q.vat_pct}%</td>
+      <td><strong>AED ${Number(q.total).toLocaleString()}</strong></td>
+      <td><span class="status-pill pill-${q.status === 'approved' ? 'completed' : 'pending'}">${q.status}</span></td>
+      <td>${q.approved_by_client ? '✅ Yes' : '⏳ Pending'}</td>
+    </tr>`).join('') || '<tr><td colspan="7" style="padding:24px;text-align:center;color:var(--gray-300);">No quotations found</td></tr>';
+}
+
+// ── Photos ────────────────────────────────────
+async function uploadPhotos() {
+  const projectId = document.getElementById('photoProjectSelect').value;
+  const phase     = document.getElementById('photoPhase').value;
+  const files     = document.getElementById('photoFiles').files;
+  const captionAr = document.getElementById('captionAr').value.trim();
+  const captionEn = document.getElementById('captionEn').value.trim();
+
+  if (!projectId) return showToast('Select a project first', 'error');
+  if (!files.length) return showToast('Select at least one photo', 'error');
+
+  const formData = new FormData();
+  formData.append('project_id', projectId);
+  formData.append('phase', phase);
+  if (captionAr) formData.append('caption_ar', captionAr);
+  if (captionEn) formData.append('caption_en', captionEn);
+  for (const f of files) formData.append('photos', f);
+
+  const btn = document.getElementById('uploadBtn');
+  setLoading(btn, true);
+  const data = await PhotosAPI.upload(formData);
+  setLoading(btn, false);
+
+  const msg = document.getElementById('photoMsg');
+  if (data && data.success) {
+    msg.style.cssText = 'display:block;background:var(--green-100);color:var(--green-800);padding:12px 16px;border-radius:10px;font-size:14px;font-weight:600;';
+    msg.textContent = `✅ ${data.photos.length} photo(s) uploaded successfully!`;
+    document.getElementById('photoFiles').value = '';
+    document.getElementById('captionAr').value = '';
+    document.getElementById('captionEn').value = '';
+  } else {
+    msg.style.cssText = 'display:block;background:#fdecea;color:#c0392b;padding:12px 16px;border-radius:10px;font-size:14px;';
+    msg.textContent = (data && data.message) || 'Upload failed';
+  }
+}
+
+// ── Contacts ──────────────────────────────────
+async function loadContacts() {
+  const { ok, data } = await AdminAPI.getContacts();
+  if (!ok) return;
+  document.getElementById('contactsTable').innerHTML = (data.contacts || []).map(c => `
+    <tr>
+      <td>${(c.first_name||'') + ' ' + (c.last_name||'')}</td>
+      <td>${c.phone || '—'}</td>
+      <td style="font-size:12px;">${c.email || '—'}</td>
+      <td>${c.project_type || '—'}</td>
+      <td>${c.emirate || '—'}</td>
+      <td>
+        <select class="action-btn outline" style="padding:4px 8px;" onchange="updateContactStatus('${c.id}', this.value)">
+          ${['new','contacted','closed'].map(s => `<option value="${s}" ${c.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td style="font-size:11px;color:var(--gray-400);">${new Date(c.created_at).toLocaleDateString('en-AE')}</td>
+      <td>
+        ${c.message ? `<button class="action-btn outline" onclick="alert('Message:\\n\\n${c.message.replace(/'/g,"\\'")}')">View</button>` : '—'}
+      </td>
+    </tr>`).join('') || '<tr><td colspan="8" style="padding:24px;text-align:center;color:var(--gray-300);">No inquiries yet</td></tr>';
+}
+
+async function updateContactStatus(id, status) {
+  const { ok } = await AdminAPI.updateContact(id, { status });
+  if (ok) showToast('Status updated');
+}
+
+// ── Modal helpers ─────────────────────────────
+function openModal(id)  { document.getElementById(id).style.display = 'flex'; }
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.style.display = 'none';
+  }
+});
+
+function toggleAdminSidebar() {
+  const isOpen = document.getElementById('adminSidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').style.display = isOpen ? 'block' : 'none';
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+function closeSidebar() {
+  document.getElementById('adminSidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').style.display = 'none';
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>

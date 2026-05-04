@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>منتجاتنا – جلازورا</title>
+  <meta name="description" content="تشكيلة جلازورا الكاملة من أنظمة الألمنيوم والزجاج والـ UPVC والـ WPC – ستائر زجاجية وأبواب ونوافذ وبرجولات ودرابزينات ومطابخ"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav scrolled" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-mark">G</span><span class="logo-text">GLAZORA</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html"    class="nav-link" data-i18n="nav_home">الرئيسية</a>
+      <a href="products.html" class="nav-link active" data-i18n="nav_products">منتجاتنا</a>
+      <a href="about.html"    class="nav-link" data-i18n="nav_about">من نحن</a>
+      <a href="contact.html"  class="nav-link" data-i18n="nav_contact">تواصل معنا</a>
+      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+      <a href="signin.html" class="nav-btn" data-i18n="nav_portal">بوابة العملاء</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="lang-toggle lang-toggle-mobile" id="langToggleMobile" onclick="toggleLang()">EN</button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="products-hero">
+  <div class="container">
+    <div class="fade-in" style="max-width:640px;padding-top:40px;">
+      <div class="section-tag" data-i18n="prod_tag">ما نصنعه</div>
+      <h1 data-i18n="prod_title">تشكيلة منتجاتنا</h1>
+      <p>من الستائر الزجاجية الهيكلية إلى الأبواب المحورية الفاخرة والبرجولات الألمنيوم — كل شيء مصنّع في مصنعنا بالفجيرة.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER + GRID -->
+<section style="padding:60px 0 100px;">
+  <div class="container">
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-filter="all" data-i18n-all="all">الكل</button>
+      <button class="filter-tab" data-filter="glazing" data-i18n-all="glazing">الزجاج الهيكلي</button>
+      <button class="filter-tab" data-filter="doors"   data-i18n-all="doors">الأبواب</button>
+      <button class="filter-tab" data-filter="windows" data-i18n-all="windows">النوافذ</button>
+      <button class="filter-tab" data-filter="structures" data-i18n-all="structures">الهياكل</button>
+      <button class="filter-tab" data-filter="interior" data-i18n-all="interior">الديكور الداخلي</button>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="products-full-grid" id="productsGrid">
+
+      <!-- 1. Curtain Wall -->
+      <div class="product-card fade-in" data-categories="glazing" id="curtain">
+        <div class="prod-thumb curtain"><div class="prod-thumb-inner"><span>🏢</span></div></div>
+        <div class="product-card-body">
+          <h3 data-i18n="prod_curtain">أنظمة الستارة الزجاجية</h3>
+          <p data-i18n="prod_curtain_desc">أنظمة واجهات زجاجية بالكامل للمباني التجارية والسكنية</p>
+          <div class="tag-list">
+            <span class="product-tag" data-i18n="mat_al">ألمنيوم</span>
+            <span class="product-tag" data-i18n="mat_gl">زجاج</span>
+            <span class="product-tag">Structural</span>
+            <span class="product-tag">Thermal Break</span>
+          </div>
+          <div class="product-detail-body" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100);">
+            <ul class="product-specs" data-lang="ar">
+              <li>ملفات ألمنيوم عازلة حرارياً (60/70/90 مم)</li>
+              <li>زجاج مزدوج (DGU) – سمك 24 إلى 28 مم</li>
+              <li>طلاء مسحوق بألوان RAL حسب الطلب</li>
+              <li>مناسب لبيئة الخليج والمناطق الساحلية</li>
+              <li>معتمد بمعاملات SHGC وU-Value للإمارات</li>
+            </ul>
+            <ul class="product-specs" data-lang="en" style="display:none;">
+              <li>Thermally-broken aluminum profiles (60/70/90mm systems)</li>
+              <li>Double Glazed Units (DGU) – 24mm to 28mm</li>
+              <li>Powder coating in RAL colors on request</li>
+              <li>Rated for Gulf & coastal environments</li>
+              <li>UAE SHGC & U-Value compliant options</li>
+            </ul>
+            <a href="contact.html" class="btn-outline" style="margin-top:16px;padding:10px 20px;font-size:13px;" data-i18n="cta_quote">اطلب عرض سعر</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Sliding Doors -->
+      <div class="product-card fade-in fade-in-delay-1" data-categories="doors windows glazing" id="sliding">
+        <div class="prod-thumb sliding"><div class="prod-thumb-inner"><span>🔲</span></div></div>
+        <div class="product-card-body">
+          <h3 data-i18n="prod_sliding">الأنظمة المنزلقة</h3>
+          <p data-i18n="prod_sliding_desc">أبواب ونوافذ منزلقة ناعمة وعازلة حرارياً</p>
+          <div class="tag-list">
+            <span class="product-tag">Sliding</span>
+            <span class="product-tag" data-i18n="mat_al">ألمنيوم</span>
+            <span class="product-tag" data-i18n="mat_upvc">UPVC</span>
+          </div>
+          <div class="product-detail-body" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100);">
+            <ul class="product-specs" data-lang="ar">
+              <li>أنظمة منزلقة ثنائية وثلاثية وأربعة أوراق</li>
+              <li>أدوات قيادة مسطحة من Roto أو Siegenia</li>
+              <li>زجاج أمني مقوى بسماكة 8-12 مم</li>
+              <li>سكك مدمجة للسقف والأرضية</li>
+              <li>خيارات ألمنيوم أو UPVC</li>
+            </ul>
+            <ul class="product-specs" data-lang="en" style="display:none;">
+              <li>2-, 3-, and 4-panel sliding configurations</li>
+              <li>Roto or Siegenia flat-guide hardware</li>
+              <li>8–12mm tempered safety glass</li>
+              <li>Flush floor & ceiling track options</li>
+              <li>Aluminum or UPVC profile options</li>
+            </ul>
+            <a href="contact.html" class="btn-outline" style="margin-top:16px;padding:10px 20px;font-size:13px;" data-i18n="cta_quote">اطلب عرض سعر</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Pivot / Entrance Doors -->
+      <div class="product-card fade-in fade-in-delay-2" data-categories="doors" id="doors">
+        <div class="prod-thumb doors"><div class="prod-thumb-inner"><span>🚪</span></div></div>
+        <div class="product-card-body">
+          <h3 data-i18n="prod_doors">الأبواب</h3>
+          <p data-i18n="prod_doors_desc">مفردة وزوجية ومحورية وداخلية وخارجية — جميع التكوينات</p>
+          <div class="tag-list">
+            <span class="product-tag">Pivot</span>
+            <span class="product-tag">Swing</span>
+            <span class="product-tag">Security</span>
+            <span class="product-tag" data-i18n="mat_al">ألمنيوم</span>
+          </div>
+          <div class="product-detail-body" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100);">
+            <ul class="product-specs" data-lang="ar">
+              <li>أبواب محورية (Pivot) بارتفاع حتى 3.5 م</li>
+              <li>أبواب مفردة وزوجية – داخلية وخارجية</li>
+              <li>أبواب أمنية مع أقفال متعددة النقاط</li>
+              <li>حشوات زجاجية أو صلبة أو ألواح WPC</li>
+              <li>تشطيبات: مؤكسد، أوكا، أنودايز، مطلي</li>
+            </ul>
+            <ul class="product-specs" data-lang="en" style="display:none;">
+              <li>Pivot doors up to 3.5m height</li>
+              <li>Single & double swing — interior & exterior</li>
+              <li>Security doors with multi-point locking</li>
+              <li>Glass, solid, or WPC panel infills</li>
+              <li>Finishes: anodized, woodgrain, powder-coated</li>
+            </ul>
+            <a href="contact.html" class="btn-outline" style="margin-top:16px;padding:10px 20px;font-size:13px;" data-i18n="cta_quote">اطلب عرض سعر</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Windows -->
+      <div class="product-card fade-in" data-categories="windows" id="windows">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#0f2a3f,#1e5f8a);"><div class="prod-thumb-inner"><span>🪟</span></div></div>
+        <div class="product-card-body">
+          <h3 data-i18n-window="true">النوافذ</h3>
+          <p data-i18n-window-desc="true">نوافذ قابلة للفتح وثابتة وشبابيك – ألمنيوم وUPVC لجميع التطبيقات</p>
+          <div class="tag-list">
+            <span class="product-tag">Casement</span>
+            <span class="product-tag">Fixed</span>
+            <span class="product-tag">Awning</span>
+            <span class="product-tag" data-i18n="mat_upvc">UPVC</span>
+          </div>
+          <div class="product-detail-body" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100);">
+            <ul class="product-specs" data-lang="ar">
+              <li>نوافذ قابلة للفتح (Casement) وثابتة (Fixed)</li>
+              <li>نوافذ علوية (Awning) ومنزلقة (Sliding)</li>
+              <li>شبابيك (louvre) للتهوية الطبيعية</li>
+              <li>ألمنيوم أو UPVC – أحادية أو مزدوجة التزجيج</li>
+              <li>مقاومة للأعاصير (بمواصفات تعزيز خاصة)</li>
+            </ul>
+            <ul class="product-specs" data-lang="en" style="display:none;">
+              <li>Casement, fixed, awning & sliding windows</li>
+              <li>Louvre windows for natural ventilation</li>
+              <li>Aluminum or UPVC — single or double-glazed</li>
+              <li>Hurricane-rated options available</li>
+              <li>Custom shapes: arched, trapezoid, triangular</li>
+            </ul>
+            <a href="contact.html" class="btn-outline" style="margin-top:16px;padding:10px 20px;font-size:13px;" data-i18n="cta_quote">اطلب عرض سعر</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Pergolas -->
+      <div class="product-card fade-in fade-in-delay-1" data-categories="structures" id="structures">
+        <div class="prod-thumb pergola"><div class="prod-thumb-inner"><span>⛩️</span></div></div>
+        <div class="product-card-body">
+          <h3 data-i18n="prod_pergola">البرجولات</h3>
+          <p data-i18n="prod_pergola_desc">هياكل برجولات فولاذية وألمنيوم للفلل والمساحات التجارية</p>
+          <div class="tag-list">
+            <span class="product-tag">Pergola</span>
+            <span class="product-tag">Canopy</span>
+            <span class="product-tag" data-i18n="mat_al">ألمنيوم</span>
+            <span class="product-tag">Steel</span>
+          </div>
+          <div class="product-detail-body" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100);">
+            <ul class="product-specs" data-lang="ar">
+              <li>هياكل ألمنيوم مقاومة للصدأ والمناخ</li>
+              <li>أسقف بلاط ألمنيوم أو زجاج أو قماش</li>
+              <li>برجولات ثابتة أو ذات أجنحة متحركة (Bioclimatic)</li>
+              <li>تشطيبات مطلية بالبودرة أو وود جرين</li>
+              <li>تصميم مخصص حسب أبعاد المنطقة</li>
+            </ul>
+            <ul class="product-specs" data-lang="en" style="display:none;">
+              <li>Corrosion-resistant aluminum structures</li>
+              <li>Aluminum slat, glass, or fabric roof panels</li>
+              <li>Fixed or bioclimatic louvered roof options</li>
+              <li>Powder-coated or woodgrain finishes</li>
+              <li>Custom dimensions to fit your space</li>
+            </ul>
+            <a href="contact.html" class="btn-outline" style="margin-top:16px;padding:10px 20px;font-size:13px;" data-i18n="cta_quote">اطلب عرض سعر</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Handrails / Balustrades -->
+      <div class="product-card fade-in fade-in-delay-2" data-categories="structures" id="handrails">
+        <div class="prod-thumb handrail"><div class="prod-thumb-inner"><span>〰️</span></div></div>
+        <div class="product-card-body">
+          <h3 data-i18n="prod_handrail">الدرابزينات والبوابات</h3>
+          <p data-i18n="prod_handrail_desc">درابزينات وحواجز من الفولاذ المقاوم للصدأ والألمنيوم والزجاج</p>
+          <div class="tag-list">
+            <span class="product-tag">Handrail</span>
+            <span class="product-tag">Glass</span>
+            <span class="product-tag">SS 316</span>
+            <span class="product-tag">Gates</span>
+          </div>
+          <div class="product-detail-body" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100);">
+            <ul class="product-specs" data-lang="ar">
+              <li>درابزينات فولاذ SS 316 مقاومة للتآكل</li>
+              <li>حواجز زجاج مشبك (Frameless Glass)</li>
+              <li>بوابات منزلقة وقابلة للطي وأوتوماتيكية</li>
+              <li>أسيجة ألمنيوم للحدائق والمسابح</li>
+              <li>تصنيع حسب الطلب – قياس دقيق من الموقع</li>
+            </ul>
+            <ul class="product-specs" data-lang="en" style="display:none;">
+              <li>Corrosion-resistant SS 316 handrail systems</li>
+              <li>Frameless glass balustrade systems</li>
+              <li>Sliding, folding & automated gates</li>
+              <li>Aluminum pool & garden fencing</li>
+              <li>Custom fabricated to site measurements</li>
+            </ul>
+            <a href="contact.html" class="btn-outline" style="margin-top:16px;padding:10px 20px;font-size:13px;" data-i18n="cta_quote">اطلب عرض سعر</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Kitchen / Wardrobe -->
+      <div class="product-card fade-in" data-categories="interior" id="kitchen">
+        <div class="prod-thumb kitchen"><div class="prod-thumb-inner"><span>🍳</span></div></div>
+        <div class="product-card-body">
+          <h3 data-i18n="prod_kitchen">المطابخ والخزائن</h3>
+          <p data-i18n="prod_kitchen_desc">وحدات مطبخ ألمنيوم وأنظمة خزائن من WPC مخصصة</p>
+          <div class="tag-list">
+            <span class="product-tag" data-i18n="mat_al">ألمنيوم</span>
+            <span class="product-tag" data-i18n="mat_wpc">WPC</span>
+            <span class="product-tag">Custom</span>
+          </div>
+          <div class="product-detail-body" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100);">
+            <ul class="product-specs" data-lang="ar">
+              <li>خزائن مطبخ ألمنيوم مع أرفف قابلة للتعديل</li>
+              <li>واجهات WPC بتأثير الخشب الطبيعي</li>
+              <li>دواليب تخزين (Wardrobe) ودريسنج روم</li>
+              <li>أنظمة تمرير الباب الهادئ (Soft-close)</li>
+              <li>مقاومة للحشرات والرطوبة والحرارة</li>
+            </ul>
+            <ul class="product-specs" data-lang="en" style="display:none;">
+              <li>Aluminum kitchen cabinets with adjustable shelving</li>
+              <li>WPC facade panels — natural wood appearance</li>
+              <li>Wardrobe & dressing room systems</li>
+              <li>Soft-close drawer & door mechanisms</li>
+              <li>Termite, moisture & heat resistant</li>
+            </ul>
+            <a href="contact.html" class="btn-outline" style="margin-top:16px;padding:10px 20px;font-size:13px;" data-i18n="cta_quote">اطلب عرض سعر</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. WPC Cladding / Interior Décor -->
+      <div class="product-card fade-in fade-in-delay-1" data-categories="interior">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#3b2a1a,#7a5230);"><div class="prod-thumb-inner"><span>🪵</span></div></div>
+        <div class="product-card-body">
+          <h3>ديكور WPC والكلادينج</h3>
+          <p>ألواح تكسية خارجية وداخلية من WPC – مقاومة للعوامل الجوية وبمظهر الخشب الطبيعي</p>
+          <div class="tag-list">
+            <span class="product-tag" data-i18n="mat_wpc">WPC</span>
+            <span class="product-tag">Cladding</span>
+            <span class="product-tag">Decking</span>
+          </div>
+          <div class="product-detail-body" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100);">
+            <ul class="product-specs" data-lang="ar">
+              <li>ألواح تكسية WPC للواجهات الخارجية</li>
+              <li>أرضيات Decking للمناطق الخارجية والمسابح</li>
+              <li>بنوات وعروق سقف خشبية المظهر</li>
+              <li>ألوان: تيك، أرز، تشيري، أبنوس، طبيعي</li>
+              <li>لا تحتاج دهان أو صيانة دورية</li>
+            </ul>
+            <ul class="product-specs" data-lang="en" style="display:none;">
+              <li>External WPC facade cladding panels</li>
+              <li>WPC decking for outdoor & pool areas</li>
+              <li>Pergola beam & rafter cladding</li>
+              <li>Colors: teak, cedar, cherry, ebony, natural</li>
+              <li>Zero maintenance — no painting required</li>
+            </ul>
+            <a href="contact.html" class="btn-outline" style="margin-top:16px;padding:10px 20px;font-size:13px;" data-i18n="cta_quote">اطلب عرض سعر</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. Commercial / Shopfront -->
+      <div class="product-card fade-in fade-in-delay-2" data-categories="glazing doors">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#1a1a3d,#2d2d8a);"><div class="prod-thumb-inner"><span>🏪</span></div></div>
+        <div class="product-card-body">
+          <h3>واجهات المحال التجارية</h3>
+          <p>أنظمة واجهات زجاجية للمحلات التجارية والمطاعم والمكاتب بتصاميم حديثة</p>
+          <div class="tag-list">
+            <span class="product-tag">Shopfront</span>
+            <span class="product-tag">Commercial</span>
+            <span class="product-tag" data-i18n="mat_al">ألمنيوم</span>
+          </div>
+          <div class="product-detail-body" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100);">
+            <ul class="product-specs" data-lang="ar">
+              <li>واجهات محلات ألمنيوم وزجاج عالية الأمان</li>
+              <li>أبواب أوتوماتيكية بمحركات DORMA/NABCO</li>
+              <li>زجاج مزدوج عازل للصوت والحرارة</li>
+              <li>واجهات كاملة للطوابق للمباني التجارية</li>
+              <li>تكامل مع أنظمة الإنذار وكاميرات المراقبة</li>
+            </ul>
+            <ul class="product-specs" data-lang="en" style="display:none;">
+              <li>High-security aluminum & glass shopfronts</li>
+              <li>Automatic door systems – DORMA/NABCO motors</li>
+              <li>Double-glazed for sound & thermal insulation</li>
+              <li>Full-floor commercial facade systems</li>
+              <li>Integration with alarm & CCTV systems</li>
+            </ul>
+            <a href="contact.html" class="btn-outline" style="margin-top:16px;padding:10px 20px;font-size:13px;" data-i18n="cta_quote">اطلب عرض سعر</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end products-full-grid -->
+
+    <!-- CTA -->
+    <div class="fade-in" style="text-align:center;margin-top:80px;padding:60px;background:var(--green-900);border-radius:24px;">
+      <h2 style="font-family:var(--font-display);font-size:clamp(28px,4vw,48px);color:var(--white);margin-bottom:16px;">
+        لم تجد ما تبحث عنه؟
+      </h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:32px;max-width:500px;margin-inline:auto;line-height:1.8;">
+        نحن نصنع حلولاً مخصصة. أخبرنا بمتطلباتك وسيقترح فريقنا النظام الأمثل لمشروعك.
+      </p>
+      <a href="contact.html" class="btn-primary light" data-i18n="cta_quote">اطلب عرض سعر مخصص ←</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo logo-light"><span class="logo-mark">G</span><span class="logo-text">GLAZORA</span></a>
+        <p data-i18n="footer_company">جلازورا لبيع الأبواب والنوافذ ذ.م.م</p>
+        <p data-i18n="footer_location">المنطقة الصناعية الحيل، الفجيرة، الإمارات العربية المتحدة</p>
+        <p class="footer-cr" data-i18n="footer_rights">© 2025 جلازورا. جميع الحقوق محفوظة.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_products">المنتجات</h4>
+        <a href="#curtain"    data-i18n="prod_curtain">أنظمة الستارة الزجاجية</a>
+        <a href="#sliding"    data-i18n="prod_sliding">الأنظمة المنزلقة</a>
+        <a href="#doors"      data-i18n="prod_doors">الأبواب</a>
+        <a href="#structures" data-i18n="prod_pergola">البرجولات</a>
+        <a href="#handrails"  data-i18n="prod_handrail">الدرابزينات</a>
+        <a href="#kitchen"    data-i18n="prod_kitchen">المطابخ والخزائن</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_company_col">الشركة</h4>
+        <a href="about.html"   data-i18n="footer_about">من نحن</a>
+        <a href="contact.html" data-i18n="footer_contact">تواصل معنا</a>
+        <a href="signin.html"  data-i18n="nav_portal">بوابة العملاء</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_contact_col">تواصل معنا</h4>
+        <p data-i18n="loc_val">المنطقة الصناعية الحيل، الفجيرة، الإمارات</p>
+        <a href="tel:+971000000000">+971 XX XXX XXXX</a>
+        <a href="mailto:info@glazora.ae">info@glazora.ae</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script>
+function toggleLang() {
+  const newLang = currentLang === 'ar' ? 'en' : 'ar';
+  setLang(newLang);
+  document.getElementById('langToggle').textContent        = newLang === 'ar' ? 'EN' : 'ع';
+  document.getElementById('langToggleMobile').textContent  = newLang === 'ar' ? 'EN' : 'ع';
+  // Flip product spec lists
+  document.querySelectorAll('.product-specs[data-lang]').forEach(ul => {
+    ul.style.display = ul.dataset.lang === newLang ? 'block' : 'none';
+  });
+}
+
+// Filter tabs
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter;
+    document.querySelectorAll('.product-card').forEach(card => {
+      const cats = (card.dataset.categories || '') + ' all';
+      card.style.display = cats.includes(filter) ? '' : 'none';
+    });
+  });
+});
+</script>
+
+<style>
+.product-specs { padding-inline-start: 20px; margin: 0; }
+.product-specs li { font-size: 13px; color: var(--gray-500); line-height: 1.8; margin-bottom: 4px; }
+</style>
+
+</body>
+</html>

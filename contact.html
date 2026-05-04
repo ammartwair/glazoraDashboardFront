@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تواصل معنا – جلازورا</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="nav scrolled" id="mainNav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-mark">G</span><span class="logo-text">GLAZORA</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-link" data-i18n="nav_home">الرئيسية</a>
+      <a href="products.html" class="nav-link" data-i18n="nav_products">منتجاتنا</a>
+      <a href="about.html" class="nav-link" data-i18n="nav_about">من نحن</a>
+      <a href="contact.html" class="nav-link active" data-i18n="nav_contact">تواصل معنا</a>
+      <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+      <a href="signin.html" class="nav-btn" data-i18n="nav_portal">بوابة العملاء</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="lang-toggle lang-toggle-mobile" id="langToggleMobile" onclick="toggleLang()">EN</button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="contact-hero">
+  <div class="container">
+    <div class="contact-hero-content fade-in">
+      <div class="section-tag" data-i18n="contact_tag">تواصل معنا</div>
+      <h1 data-i18n="contact_title">دعنا نتحدث عن مشروعك</h1>
+      <p data-i18n="contact_sub">سواء كنت تحتاج إلى عرض سعر أو استشارة أو لديك سؤال — فريقنا مستعد للمساعدة.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT GRID -->
+<section style="padding:80px 0 100px;">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- Left: Info -->
+      <div class="fade-in">
+        <h2 style="font-family:var(--font-display);font-size:32px;color:var(--green-900);margin-bottom:12px;" data-i18n="contact_h2">يسعدنا سماعك</h2>
+        <p style="color:var(--gray-500);font-size:15px;line-height:1.8;margin-bottom:32px;" data-i18n="contact_p">نحن متواجدون في الفجيرة ونخدم عملاء في جميع الإمارات السبع.</p>
+
+        <div class="contact-info-card">
+          <div class="contact-info-label" data-i18n="visit_label">زيارة مصنعنا</div>
+          <div class="contact-info-value" data-i18n="visit_val">المنطقة الصناعية الحيل،<br/>الفجيرة، الإمارات العربية المتحدة</div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-info-label" data-i18n="call_label">اتصل بنا</div>
+          <div class="contact-info-value"><a href="tel:+971000000000" style="color:var(--green-700);">+971 XX XXX XXXX</a></div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-info-label" data-i18n="email_label">البريد الإلكتروني</div>
+          <div class="contact-info-value"><a href="mailto:info@glazora.ae" style="color:var(--green-700);">info@glazora.ae</a></div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-info-label" data-i18n="hours_label">ساعات العمل</div>
+          <div class="contact-info-value" style="font-size:14px;" data-i18n="hours_val">الاثنين – السبت: 8:00 ص – 6:00 م<br/>الأحد: مغلق</div>
+        </div>
+
+        <!-- Google Maps placeholder -->
+        <div style="border-radius:16px;overflow:hidden;height:200px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;margin-bottom:24px;border:1px solid var(--gray-200);">
+          <!-- Replace with: <iframe src="https://maps.google.com/..."></iframe> -->
+          <p style="color:var(--gray-400);font-size:13px;text-align:center;">📍 Google Maps<br/><span style="font-size:11px;">سيتم إضافة الخريطة</span></p>
+        </div>
+
+        <div class="contact-portal-card">
+          <h4 data-i18n="already_client">عميل بالفعل؟</h4>
+          <p data-i18n="already_client_sub">سجّل دخولك إلى بوابة العملاء لمتابعة حالة مشروعك.</p>
+          <a href="signin.html" data-i18n="portal_link">الوصول إلى بوابة العملاء ←</a>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="contact-form-wrap fade-in fade-in-delay-1">
+        <h3 data-i18n="form_title">أرسل لنا رسالة</h3>
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="fname">الاسم الأول *</label>
+              <input type="text" name="first_name" data-i18n="fname_ph" placeholder="محمد" required/>
+            </div>
+            <div class="form-group">
+              <label data-i18n="lname">الاسم الأخير *</label>
+              <input type="text" name="last_name" data-i18n="lname_ph" placeholder="الراشدي" required/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="phone_f">رقم الهاتف *</label>
+              <input type="tel" name="phone" placeholder="+971 50 000 0000" required/>
+            </div>
+            <div class="form-group">
+              <label data-i18n="email_f">البريد الإلكتروني</label>
+              <input type="email" name="email" data-i18n="email_ph" placeholder="you@example.com"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="proj_type_f">نوع المشروع *</label>
+              <select name="project_type" required>
+                <option value="">— اختر —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label data-i18n="emirate_f">الإمارة</label>
+              <select name="emirate">
+                <option value="">— اختر —</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="message_f">أخبرنا عن مشروعك</label>
+            <textarea name="message" rows="5" data-i18n="message_ph" placeholder="صف مشروعك باختصار..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">
+            <span data-i18n="submit_form">إرسال الرسالة ←</span>
+          </button>
+          <div id="formSuccess" class="form-success" data-i18n="form_success">✅ تم إرسال رسالتك! سيتواصل معك فريقنا خلال 24 ساعة.</div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo logo-light"><span class="logo-mark">G</span><span class="logo-text">GLAZORA</span></a>
+        <p data-i18n="footer_company">جلازورا لبيع الأبواب والنوافذ ذ.م.م</p>
+        <p data-i18n="footer_location">المنطقة الصناعية الحيل، الفجيرة، الإمارات العربية المتحدة</p>
+        <p class="footer-cr" data-i18n="footer_rights">© 2025 جلازورا. جميع الحقوق محفوظة.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_products">المنتجات</h4>
+        <a href="products.html" data-i18n="prod_curtain">أنظمة الستارة الزجاجية</a>
+        <a href="products.html" data-i18n="prod_sliding">الأنظمة المنزلقة</a>
+        <a href="products.html" data-i18n="prod_doors">الأبواب</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_company_col">الشركة</h4>
+        <a href="about.html" data-i18n="footer_about">من نحن</a>
+        <a href="contact.html" data-i18n="footer_contact">تواصل معنا</a>
+        <a href="signin.html" data-i18n="nav_portal">بوابة العملاء</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_contact_col">تواصل معنا</h4>
+        <p data-i18n="loc_val">المنطقة الصناعية الحيل، الفجيرة، الإمارات</p>
+        <a href="mailto:info@glazora.ae">info@glazora.ae</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script>
+function toggleLang() {
+  const newLang = currentLang === 'ar' ? 'en' : 'ar';
+  setLang(newLang);
+  document.getElementById('langToggle').textContent = newLang === 'ar' ? 'EN' : 'ع';
+  document.getElementById('langToggleMobile').textContent = newLang === 'ar' ? 'EN' : 'ع';
+}
+</script>
+</body>
+</html>
