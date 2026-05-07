@@ -16,7 +16,7 @@
 <nav class="nav" id="mainNav">
   <div class="nav-inner">
     <a href="index.html" class="logo">
-      <img src="photos/logo.png" alt="Glazora" class="logo-img"/>
+      <img src="photos/logo2.png" alt="Glazora" class="logo-img"/>
     </a>
     <div class="nav-links" id="navLinks">
       <a href="index.html" class="nav-link active" data-i18n="nav_home">الرئيسية</a>
@@ -25,11 +25,12 @@
       <a href="contact.html" class="nav-link" data-i18n="nav_contact">تواصل معنا</a>
       <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
       <a href="signin.html" class="nav-btn" data-i18n="nav_portal">بوابة العملاء</a>
-    </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <button class="lang-toggle lang-toggle-mobile" id="langToggleMobile" onclick="toggleLang()">EN</button>
       <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
+    </div>
+
   </div>
 </nav>
 
@@ -41,11 +42,12 @@
   </div>
   <div class="hero-content">
     <div class="hero-left">
+      <div class="hero-brand-name"><span class="hero-brand-highlight" data-i18n="hero_brand_name">جلازورا</span><span class="hero-brand-sub" data-i18n="hero_brand_sub"> — حلول الأبواب والنوافذ</span></div>
       <div class="hero-tag" data-i18n="hero_tag">الفجيرة · المنطقة الصناعية الحيل · الإمارات</div>
       <h1 class="hero-title">
         <span data-i18n="hero_title_1">حلول</span><br/>
         <em data-i18n="hero_title_2">زجاج</em><br/>
-        <span data-i18n="hero_title_3">وألمنيوم</span><br/>
+        <span data-i18n="hero_title_3">و ألمنيوم</span><br/>
         <span data-i18n="hero_title_4">متكاملة</span>
       </h1>
       <p class="hero-sub" data-i18n="hero_sub">أبواب ونوافذ وأنظمة واجهات زجاجية فاخرة — نختار لك الأفضل، ونركّبه باحتراف</p>
@@ -60,15 +62,15 @@
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-cards">
-        <div class="hero-card"><div class="hcard-icon">🏢</div><div class="hcard-label">Curtain Wall</div></div>
-        <div class="hero-card"><div class="hcard-icon">🚪</div><div class="hcard-label">Premium Doors</div></div>
-        <div class="hero-card"><div class="hcard-icon">⛩️</div><div class="hcard-label">Pergolas</div></div>
-      </div>
+   
       <div class="hero-img-container">
         <img src="photos/IMG_7267.jpg" alt="مشروع جلازورا" class="hero-project-img"/>
         <div class="hero-img-overlay"></div>
-        <div class="hero-img-badge">مشروع جلازورا · الفجيرة</div>
+        <div class="hero-img-badge" data-i18n="hero_img_badge">مشروع جلازورا · الفجيرة</div>
+      </div>
+         <div class="hero-cards">
+        <div class="hero-card"><div class="hcard-icon">⛩️</div><div class="hcard-label">Wall Gates</div></div>
+        <div class="hero-card"><div class="hcard-icon">🏢</div><div class="hcard-label">Curtain Wall Systems</div></div>
       </div>
     </div>
   </div>
@@ -141,7 +143,7 @@
         <p data-i18n="prod_sliding_desc">أبواب ونوافذ منزلقة ناعمة وعازلة حرارياً</p>
       </div>
       <div class="prod-item fade-in fade-in-delay-2">
-        <div class="prod-thumb doors"><img src="photos/aluminumDoor.jpg" alt="الأبواب"/></div>
+        <div class="prod-thumb doors"><img src="photos/aluminumDoor.png" alt="الأبواب"/></div>
         <h3 data-i18n="prod_doors">الأبواب</h3>
         <p data-i18n="prod_doors_desc">مفردة وزوجية ومحورية وداخلية وخارجية</p>
       </div>
@@ -262,8 +264,8 @@
 function toggleLang() {
   const newLang = currentLang === 'ar' ? 'en' : 'ar';
   setLang(newLang);
-  document.getElementById('langToggle').textContent = newLang === 'ar' ? 'EN' : 'ع';
-  document.getElementById('langToggleMobile').textContent = newLang === 'ar' ? 'EN' : 'ع';
+  document.getElementById('langToggle').textContent = newLang === 'ar' ? 'EN' : 'العربية';
+  document.getElementById('langToggleMobile').textContent = newLang === 'ar' ? 'EN' : 'العربية';
 }
 // Update hero title line 2 style for EN
 function patchHeroForLang() {

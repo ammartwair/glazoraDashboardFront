@@ -14,20 +14,25 @@ const TRANSLATIONS = {
     nav_portal: 'بوابة العملاء',
 
     // HERO
+    hero_brand: 'جلازورا — حلول الأبواب والنوافذ',
+    hero_brand_name: 'جلازورا',
+    hero_brand_sub: ' — حلول الأبواب والنوافذ',
     hero_tag: 'الفجيرة · المنطقة الصناعية الحيل · الإمارات',
     hero_title_1: 'حلول',
     hero_title_2: 'زجاج',
-    hero_title_3: 'وألمنيوم',
+    hero_title_3: 'و ألمنيوم',
     hero_title_4: 'متكاملة',
     hero_sub: 'أبواب ونوافذ وأنظمة واجهات زجاجية فاخرة — نختار لك الأفضل، ونركّبه باحتراف',
     hero_btn_products: 'تصفح منتجاتنا',
     hero_btn_quote: 'اطلب عرض سعر',
+    hero_img_badge: 'مشروع جلازورا · الفجيرة',
     stat_projects: 'مشروع منجز',
     stat_years: '2026',
     stat_uae: 'الإمارات',
     stat_projects_label: 'مشاريع منجزة',
     stat_years_label: 'تأسسنا',
     stat_uae_label: 'مرخصون في الإمارات',
+
 
     // INTRO
     who_tag: 'من نحن',
@@ -251,10 +256,14 @@ const TRANSLATIONS = {
     lang: 'en',
     nav_home: 'Home', nav_products: 'Products', nav_about: 'About Us',
     nav_contact: 'Contact', nav_portal: 'Client Portal',
+    hero_brand: 'Glazora — Doors and Windows Solutions',
+    hero_brand_name: 'Glazora',
+    hero_brand_sub: ' — Doors and Windows Solutions',
     hero_tag: 'Fujairah · AlHail Industrial · UAE',
     hero_title_1: 'Complete', hero_title_2: 'Glass &', hero_title_3: 'Aluminum', hero_title_4: 'Solutions',
     hero_sub: 'Premium doors, windows & curtain wall systems — we source the best and install with precision.',
     hero_btn_products: 'Explore Products', hero_btn_quote: 'Get a Quote',
+    hero_img_badge: 'Glazora Project - Fujairah',
     stat_projects: '500+', stat_years: '2026', stat_uae: 'UAE',
     stat_projects_label: 'Projects Completed', stat_years_label: 'Founded', stat_uae_label: 'Based & Licensed',
     who_tag: 'Who We Are', who_title: 'UAE Specialists in Glass & Aluminum Supply and Installation',
@@ -373,7 +382,7 @@ function applyTranslations() {
   });
   // Update lang toggle button
   const toggleBtn = document.getElementById('langToggle');
-  if (toggleBtn) toggleBtn.textContent = currentLang === 'ar' ? 'EN' : 'ع';
+  if (toggleBtn) toggleBtn.textContent = currentLang === 'ar' ? 'EN' : 'العربية';
 }
 
 // Initialize on load
