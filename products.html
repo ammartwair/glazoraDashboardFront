@@ -21,10 +21,10 @@
       <a href="contact.html"  class="nav-link" data-i18n="nav_contact">تواصل معنا</a>
       <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
       <a href="signin.html" class="nav-btn" data-i18n="nav_portal">بوابة العملاء</a>
-    </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <button class="lang-toggle lang-toggle-mobile" id="langToggleMobile" onclick="toggleLang()">EN</button>
-      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
     </div>
   </div>
 </nav>
@@ -59,7 +59,7 @@
 
       <!-- 1. Curtain Wall -->
       <div class="product-card fade-in" data-categories="glazing" id="curtain">
-        <div class="prod-thumb curtain"><div class="prod-thumb-inner"><span>🏢</span></div></div>
+        <div class="prod-thumb curtain"><img src="photos/curtainWalls.JPG" alt="أنظمة الستارة الزجاجية"/><div class="prod-thumb-inner"></div></div>
         <div class="product-card-body">
           <h3 data-i18n="prod_curtain">أنظمة الستارة الزجاجية</h3>
           <p data-i18n="prod_curtain_desc">أنظمة واجهات زجاجية بالكامل للمباني التجارية والسكنية</p>
@@ -91,7 +91,7 @@
 
       <!-- 2. Sliding Doors -->
       <div class="product-card fade-in fade-in-delay-1" data-categories="doors windows glazing" id="sliding">
-        <div class="prod-thumb sliding"><div class="prod-thumb-inner"><span>🔲</span></div></div>
+        <div class="prod-thumb sliding"><img src="photos/sliding.png" alt="الأنظمة المنزلقة"/></div>
         <div class="product-card-body">
           <h3 data-i18n="prod_sliding">الأنظمة المنزلقة</h3>
           <p data-i18n="prod_sliding_desc">أبواب ونوافذ منزلقة ناعمة وعازلة حرارياً</p>
@@ -122,7 +122,7 @@
 
       <!-- 3. Pivot / Entrance Doors -->
       <div class="product-card fade-in fade-in-delay-2" data-categories="doors" id="doors">
-        <div class="prod-thumb doors"><div class="prod-thumb-inner"><span>🚪</span></div></div>
+        <div class="prod-thumb doors"><img src="photos/aluminumDoor.png" alt="الأبواب"/></div>
         <div class="product-card-body">
           <h3 data-i18n="prod_doors">الأبواب</h3>
           <p data-i18n="prod_doors_desc">مفردة وزوجية ومحورية وداخلية وخارجية — جميع التكوينات</p>
@@ -218,7 +218,7 @@
 
       <!-- 6. Handrails / Balustrades -->
       <div class="product-card fade-in fade-in-delay-2" data-categories="structures" id="handrails">
-        <div class="prod-thumb handrail"><div class="prod-thumb-inner"><span>〰️</span></div></div>
+        <div class="prod-thumb handrail"><img src="photos/handrail.jpg" alt="الدرابزينات"/></div>
         <div class="product-card-body">
           <h3 data-i18n="prod_handrail">الدرابزينات والبوابات</h3>
           <p data-i18n="prod_handrail_desc">درابزينات وحواجز من الفولاذ المقاوم للصدأ والألمنيوم والزجاج</p>
@@ -365,7 +365,7 @@
         <a href="index.html" class="logo logo-light"><img src="photos/logo.png" alt="Glazora" class="logo-img"/></a>
         <p data-i18n="footer_company">جلازورا لبيع الأبواب والنوافذ ذ.م.م</p>
         <p data-i18n="footer_location">المنطقة الصناعية الحيل، الفجيرة، الإمارات العربية المتحدة</p>
-        <p class="footer-cr" data-i18n="footer_rights">© 2025 جلازورا. جميع الحقوق محفوظة.</p>
+        <p class="footer-cr" data-i18n="footer_rights">© 2026 جلازورا. جميع الحقوق محفوظة.</p>
       </div>
       <div class="footer-col">
         <h4 data-i18n="footer_products">المنتجات</h4>
@@ -385,8 +385,10 @@
       <div class="footer-col">
         <h4 data-i18n="footer_contact_col">تواصل معنا</h4>
         <p data-i18n="loc_val">المنطقة الصناعية الحيل، الفجيرة، الإمارات</p>
-        <a href="tel:+971000000000">+971 XX XXX XXXX</a>
+        <a href="tel:+971507437402">+971 50 743 7402</a>
+        <a href="https://wa.me/971507437402" target="_blank">WhatsApp: +971 50 743 7402</a>
         <a href="mailto:info@glazora.ae">info@glazora.ae</a>
+        <a href="https://www.instagram.com/glazora_uae" target="_blank">Instagram: @glazora_uae</a>
       </div>
     </div>
   </div>
@@ -399,8 +401,8 @@
 function toggleLang() {
   const newLang = currentLang === 'ar' ? 'en' : 'ar';
   setLang(newLang);
-  document.getElementById('langToggle').textContent        = newLang === 'ar' ? 'EN' : 'ع';
-  document.getElementById('langToggleMobile').textContent  = newLang === 'ar' ? 'EN' : 'ع';
+  document.getElementById('langToggle').textContent        = newLang === 'ar' ? 'EN' : 'العربية';
+  document.getElementById('langToggleMobile').textContent  = newLang === 'ar' ? 'EN' : 'العربية';
   // Flip product spec lists
   document.querySelectorAll('.product-specs[data-lang]').forEach(ul => {
     ul.style.display = ul.dataset.lang === newLang ? 'block' : 'none';

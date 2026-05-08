@@ -19,10 +19,10 @@
       <a href="contact.html" class="nav-link" data-i18n="nav_contact">تواصل معنا</a>
       <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
       <a href="signin.html" class="nav-btn" data-i18n="nav_portal">بوابة العملاء</a>
-    </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <button class="lang-toggle lang-toggle-mobile" id="langToggleMobile" onclick="toggleLang()">EN</button>
-      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
     </div>
   </div>
 </nav>
@@ -80,7 +80,7 @@
         <a href="index.html" class="logo logo-light"><img src="photos/logo.png" alt="Glazora" class="logo-img"/></a>
         <p data-i18n="footer_company">جلازورا لبيع الأبواب والنوافذ ذ.م.م</p>
         <p data-i18n="footer_location">المنطقة الصناعية الحيل، الفجيرة، الإمارات العربية المتحدة</p>
-        <p class="footer-cr" data-i18n="footer_rights">© 2025 جلازورا. جميع الحقوق محفوظة.</p>
+        <p class="footer-cr" data-i18n="footer_rights">© 2026 جلازورا. جميع الحقوق محفوظة.</p>
       </div>
       <div class="footer-col">
         <h4 data-i18n="footer_products">المنتجات</h4>
@@ -98,7 +98,10 @@
       <div class="footer-col">
         <h4 data-i18n="footer_contact_col">تواصل معنا</h4>
         <p data-i18n="loc_val">المنطقة الصناعية الحيل، الفجيرة، الإمارات</p>
+        <a href="tel:+971507437402">+971 50 743 7402</a>
+        <a href="https://wa.me/971507437402" target="_blank">WhatsApp: +971 50 743 7402</a>
         <a href="mailto:info@glazora.ae">info@glazora.ae</a>
+        <a href="https://www.instagram.com/glazora_uae" target="_blank">Instagram: @glazora_uae</a>
       </div>
     </div>
   </div>
@@ -111,8 +114,8 @@
 function toggleLang() {
   const newLang = currentLang === 'ar' ? 'en' : 'ar';
   setLang(newLang);
-  document.getElementById('langToggle').textContent = newLang === 'ar' ? 'EN' : 'ع';
-  document.getElementById('langToggleMobile').textContent = newLang === 'ar' ? 'EN' : 'ع';
+  document.getElementById('langToggle').textContent = newLang === 'ar' ? 'EN' : 'العربية';
+  document.getElementById('langToggleMobile').textContent = newLang === 'ar' ? 'EN' : 'العربية';
 }
 </script>
 </body>

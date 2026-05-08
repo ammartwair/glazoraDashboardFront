@@ -19,10 +19,10 @@
       <a href="contact.html" class="nav-link active" data-i18n="nav_contact">تواصل معنا</a>
       <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
       <a href="signin.html" class="nav-btn" data-i18n="nav_portal">بوابة العملاء</a>
-    </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <button class="lang-toggle lang-toggle-mobile" id="langToggleMobile" onclick="toggleLang()">EN</button>
-      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
     </div>
   </div>
 </nav>
@@ -54,7 +54,15 @@
         </div>
         <div class="contact-info-card">
           <div class="contact-info-label" data-i18n="call_label">اتصل بنا</div>
-          <div class="contact-info-value"><a href="tel:+971000000000" style="color:var(--green-700);">+971 XX XXX XXXX</a></div>
+          <div class="contact-info-value"><a href="tel:+971507437402" style="color:var(--green-700);">+971 50 743 7402</a></div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-info-label">واتساب</div>
+          <div class="contact-info-value"><a href="https://wa.me/971507437402" target="_blank" style="color:var(--green-700); direction:ltr; display:inline-block;">+971 50 743 7402</a></div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-info-label">انستغرام</div>
+          <div class="contact-info-value"><a href="https://www.instagram.com/glazora_uae" target="_blank" style="color:var(--green-700);">@glazora_uae</a></div>
         </div>
         <div class="contact-info-card">
           <div class="contact-info-label" data-i18n="email_label">البريد الإلكتروني</div>
@@ -65,10 +73,9 @@
           <div class="contact-info-value" style="font-size:14px;" data-i18n="hours_val">الاثنين – السبت: 8:00 ص – 6:00 م<br/>الأحد: مغلق</div>
         </div>
 
-        <!-- Google Maps placeholder -->
-        <div style="border-radius:16px;overflow:hidden;height:200px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;margin-bottom:24px;border:1px solid var(--gray-200);">
-          <!-- Replace with: <iframe src="https://maps.google.com/..."></iframe> -->
-          <p style="color:var(--gray-400);font-size:13px;text-align:center;">📍 Google Maps<br/><span style="font-size:11px;">سيتم إضافة الخريطة</span></p>
+        <!-- Google Maps -->
+        <div style="border-radius:16px;overflow:hidden;height:280px;margin-bottom:24px;border:1px solid var(--gray-200);">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3613.370219397273!2d56.294738878746614!3d25.089326178792234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef4f9a2ea355593%3A0xd865a7d0794412a0!2sGLAZORA!5e0!3m2!1sen!2sae!4v1778274280027!5m2!1sen!2sae" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
 
         <div class="contact-portal-card">
@@ -139,7 +146,7 @@
         <a href="index.html" class="logo logo-light"><img src="photos/logo.png" alt="Glazora" class="logo-img"/></a>
         <p data-i18n="footer_company">جلازورا لبيع الأبواب والنوافذ ذ.م.م</p>
         <p data-i18n="footer_location">المنطقة الصناعية الحيل، الفجيرة، الإمارات العربية المتحدة</p>
-        <p class="footer-cr" data-i18n="footer_rights">© 2025 جلازورا. جميع الحقوق محفوظة.</p>
+        <p class="footer-cr" data-i18n="footer_rights">© 2026 جلازورا. جميع الحقوق محفوظة.</p>
       </div>
       <div class="footer-col">
         <h4 data-i18n="footer_products">المنتجات</h4>
@@ -156,7 +163,10 @@
       <div class="footer-col">
         <h4 data-i18n="footer_contact_col">تواصل معنا</h4>
         <p data-i18n="loc_val">المنطقة الصناعية الحيل، الفجيرة، الإمارات</p>
+        <a href="tel:+971507437402">+971 50 743 7402</a>
+        <a href="https://wa.me/971507437402" target="_blank">WhatsApp: +971 50 743 7402</a>
         <a href="mailto:info@glazora.ae">info@glazora.ae</a>
+        <a href="https://www.instagram.com/glazora_uae" target="_blank">Instagram: @glazora_uae</a>
       </div>
     </div>
   </div>
@@ -169,8 +179,8 @@
 function toggleLang() {
   const newLang = currentLang === 'ar' ? 'en' : 'ar';
   setLang(newLang);
-  document.getElementById('langToggle').textContent = newLang === 'ar' ? 'EN' : 'ع';
-  document.getElementById('langToggleMobile').textContent = newLang === 'ar' ? 'EN' : 'ع';
+  document.getElementById('langToggle').textContent = newLang === 'ar' ? 'EN' : 'العربية';
+  document.getElementById('langToggleMobile').textContent = newLang === 'ar' ? 'EN' : 'العربية';
 }
 </script>
 </body>
